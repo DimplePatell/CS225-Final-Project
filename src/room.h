@@ -12,7 +12,7 @@ class Room {
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
         void printRoom();
-       // std::vector<int> solveRoom();
+        std::vector<int> solveRoom();
         //cs225::PNG* drawRoom() const;
     private:
         int width;
