@@ -3,6 +3,11 @@
 #include "disjointsets.cpp"
 #include <queue>
 #include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+using namespace std;
+
 /*#include "cs225/HSLAPixel.h"
 #include "cs225/PNG.h"*/
     Room::Room(){
