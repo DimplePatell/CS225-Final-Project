@@ -53,7 +53,6 @@
             }
             
         }
-        std::cout<<"n"<<std::endl;
         DisjointSets set;
         set.addelements(new_width * new_height);
         int x;
