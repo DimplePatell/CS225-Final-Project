@@ -159,3 +159,67 @@
             std::cout<<std::endl;
         }
     }
+
+    std::vector<int> Room::solveRoom() {
+        vector<int> lastRow;
+        map<int, int> steps;
+        vector<bool> visited;
+ 
+        for (int i = 0; i < (width * height); ++i) {
+        visited.push_back(false);
+    }
+        queue<int> q1;
+        q1.push(0);
+        visited.at(0) = true;
+ 
+        while (!q1.empty()) {
+        int elem = q1.front();
+        q1.pop();
+        int x_pos = elem % width;
+        int y_pos = elem / width;
+        if (y_pos == (height - 1)) {  
+            lastRow.push_back(elem);
+        }
+        if (canTravel(x_pos, y_pos, 0) && !visited.at(elem+1)) {
+            steps.insert(pair<int,int> (elem + 1, elem));
+            visited.at(elem + 1) = true;
+            q1.push(elem + 1);
+        }
+        if (canTravel(x_pos, y_pos, 1) && !visited.at(elem + width)) {
+            steps.insert(pair<int,int> (elem + width, elem));
+            visited.at(elem + width) = true;
+            q1.push(elem + width);
+        }
+        if (canTravel(x_pos, y_pos, 2) && !visited.at(elem - 1)) {
+            steps.insert(pair<int,int> (elem - 1, elem));
+            visited.at(elem - 1) = true;
+            q1.push(elem - 1);
+        }
+        if (canTravel(x_pos, y_pos, 3) && !visited.at(elem - width)) {
+            steps.insert(pair<int,int> (elem - width, elem));
+            visited.at(elem - width) = true;
+            q1.push(elem - width);
+        }
+    }
+    vector<int> vec;
+    int end = width - 1;
+    while (lastRow.at(end) == lastRow.at(end - 1)) {
+        end -= end;
+    }
+    int start = lastRow.at(end);
+    while (start != 0) {
+        int prev = steps[start];
+        if (start == (prev + 1)) {
+            vec.push_back(0);
+        } else if (start == (prev + width)) {
+            vec.push_back(1);
+        } else if (start == (prev - 1)) {
+            vec.push_back(2);
+        } else if (start == (prev - width)) {
+            vec.push_back(3);
+        }
+        start = prev;
+    }
+    reverse(vec.begin(), vec.end());
+    return vec;
+}
