@@ -1,4 +1,3 @@
-/* Your code here! */
 #include "room.h"
 #include "disjointsets.cpp"
 #include <queue>
@@ -8,8 +7,8 @@
 #include <algorithm>
 using namespace std;
 
-/*#include "cs225/HSLAPixel.h"
-#include "cs225/PNG.h"*/
+#include "../lib/cs225/HSLAPixel.h"
+#include "../lib/cs225/PNG.h"
     Room::Room(){
         width = 0;
         height = 0;
@@ -151,19 +150,6 @@ using namespace std;
             }
         }
     }
-//     void Room::printRoom(){
-//         for(int x=0; x < width; x++){
-//             for(int y=0; y <height; y++){
-//                 if(v[x][y] == 'o'){
-//                     std::cout<<"O";
-//                 }
-//                 else{
-//                     std::cout<<"X";
-//                 }
-//             }
-//             std::cout<<std::endl;
-//         }
-//     }
 
     std::vector<int> Room::solveRoom() {
         vector<int> lastRow;
@@ -229,8 +215,8 @@ using namespace std;
     return vec;
 }
 
-cs225::PNG* drawRoom() const {
-    PNG * room = new PNG(width*10 + 1, height*10 + 1); 
+cs225::PNG* drawRoom() {
+    cs225::PNG * room = new PNG(width*10 + 1, height*10 + 1); 
     for (int y = 0; y < (height*10 + 1); ++y) { 
         HSLAPixel& pxl = room -> getPixel(0, y);
         pxl.l = 0.0;

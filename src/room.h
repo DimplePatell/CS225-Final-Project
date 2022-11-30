@@ -1,7 +1,7 @@
 /* Your code here! */
 #pragma once
 #include <vector>
-//#include "cs225/PNG.h"
+#include "../lib/cs225/PNG.h"
 class Room {
     public:
         Room();
@@ -11,9 +11,8 @@ class Room {
         Room* roomHelper(int w,int h, bool ob);
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
-//         void printRoom();
         std::vector<int> solveRoom();
-        cs225::PNG* drawRoom() const;
+        cs225::PNG* drawRoom();
     private:
         int width;
         int height;
@@ -23,6 +22,6 @@ class Room {
         //otherwise empty
         std::vector<std::vector<std::vector<int>>> edges;
     
-        vector<bool> wallRight;
-        vector<bool> wallDown;
+        std::vector<bool> wallRight;
+        std::vector<bool> wallDown;
 };

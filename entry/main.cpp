@@ -1,5 +1,5 @@
 #include "room.h"
-#include "test.cpp"
+#include "../tests/test.cpp"
 #include <iostream>
 
 int main(){
