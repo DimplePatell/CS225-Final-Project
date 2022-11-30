@@ -17,6 +17,39 @@ void assert_connected(Room & room, int width, int height);
 std::pair<int, int> assert_room_helper(Room & room, int width, int height);
 void DFS(Room & room, std::vector<std::vector<int> > * visited, int x, int y, int width, int height, int * calls);
 
+void djsTestAddElements();
+void djsTestUnion();
+void djsTestSize();
+
+void djsAddElements() {
+    DisjointSets djs;
+	djs.addelements(5);
+    if (3 == djs.find(3)) {
+        std::cout << "djs added elements correctly" << std::endl;
+    }
+}
+
+void djsTestUnion() {
+    DisjointSets djs;
+	djs.addelements(4);
+	djs.setunion(1, 2);
+    if (djs.find(2) == djs.find(1)) {
+        std::cout << "djs set union correctly" << std::endl;
+    }
+}
+
+void djsTestSize() {
+    DisjointSets djs;
+	djs.addelements(8);
+	djs.setunion(1, 7);
+	djs.setunion(2, 6);
+	djs.setunion(3, 5);
+	djs.setunion(2, 3);
+    if (4 == disjSets.size(3)) {
+        std::cout << "djs check size correctly" << std::endl;
+    }
+}
+
 void testMakeRoomSmall(){
     Room room;
     room.makeRoom(3, 3);
