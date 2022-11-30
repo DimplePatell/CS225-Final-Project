@@ -9,27 +9,30 @@
 #include "large_twitch_features.csv"
 
 void BST::BST() {
-    std::string line;
-    std::ifstream infile("large_twitch_features.csv");
-    std::vector<std::vector<int>> gamers;
-    while (infile) {
-        if (std::getline(infile, line).good()) {
-            std::vector<std::string> row;
-            std::vector<int> temp;
 
-            std::string substr;
-            getline(line, substr, ',');
-            row.push_back(substr);
-            if (std::stoi(row[0]) >= 0 && std::stoi(row[5]) >= 0) {
-                temp.push_back(std::stoi(row[0]));
-                temp.push_back(std::stoi(row[5]));
-                gamers.push_back(temp);
-            }
+    std::string lines;
+    std::ifstream file;
+    file.open("large_twitch_features.csv");
+    std::vector<std::vector<int>> gamers;
+    
+    while (std::getline(file, lines)) {
+        std::stringstream ss(lines);
+        std::string str;
+        
+        std::vector<std::string> row;
+       
+        while (std::getline(ss, str, ',')) {
+            row.push_back(str);
             
         }
-        
+        std::vector<int> temp;
+        if (std::stoi(row[0]) >= 0 && std::stoi(row[5]) >= 0) {
+            temp.push_back(std::stoi(row[0]));
+            temp.push_back(std::stoi(row[5]));
+            gamers.push_back(temp);
+        }  
     }
-
+    
     sort(gamers.begin(), gamers.end(), greater);
     gamers.erase(gamers.begin() + 10, gamers.end()); //should be + 1000. this is for testing purposes
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -38,7 +41,6 @@ void BST::BST() {
     for (std::vector<int> i : gamers) {
         insert(i[0], i[1]);
     }
-
 }
 
 bool BST::greater(vector<int>& A, vector<int>& B)
@@ -77,7 +79,7 @@ void BST::insert(Node*& node, const int & key, const int & value) {
 }
 
 
-void BST::swap(Node*& first, Node*& second) {
+/*void BST::swap(Node*& first, Node*& second) {
     int kith = first->key;
     int val = first->value;
 
@@ -117,7 +119,7 @@ void BST::remove(Node*& subtree, const int & key) {
         swap(curr, n);
         remove(n->left, key);
     }
-}
+}/*
 
 
 
