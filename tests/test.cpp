@@ -1,10 +1,13 @@
 #include "room.h"
+#include "disjointsets.h"
 #include <iostream>
 #include <vector>
 #include <utility>
 #include <iostream>
 #include <string>
 #include <stack>
+#include "roomreader.h"
+#include <catch2/catch_test_macros.hpp>
 
 
 void testMakeRoomSmall();
@@ -16,6 +19,13 @@ void assert_room_tree(Room& room, int width, int height);
 void assert_connected(Room & room, int width, int height);
 std::pair<int, int> assert_room_helper(Room & room, int width, int height);
 void DFS(Room & room, std::vector<std::vector<int> > * visited, int x, int y, int width, int height, int * calls);
+void copyRoom(const RoomReader & source, Room * dest);
+PNG read_solution(const string & filename, int width, int height);
+PNG read_unsolved(const string & filename, int width, int height);
+#define READ_SOLUTION_ROOM(func, width, height)  \
+    RoomReader(READ_SOLUTION_PNG(func, width, height))
+#define READ_SOLUTION_PNG(func, width, height)  \
+    read_solution(string("../tests/soln_") + func + string(".png"), width, height)
 
 void djsTestAddElements();
 void djsTestUnion();
@@ -215,3 +225,47 @@ void assert_room_tree(Room & room, int width, int height){
     if (components != 1)
         std::cout<<"fail room is not connected"<<std::endl;
 }
+
+PNG read_solution(const string & filename, int width, int height)
+{
+      PNG output;
+      output.readFromFile(filename);
+      return output;
+}
+
+void helpSolveRoom(const RoomReader & soln)
+{
+    Room room;
+    copyRoom(soln, &room);
+    vector<int> solution = room.solveRoom();
+
+    cout << "first 10 steps in solution:" << endl;
+    for (size_t i = 0; i < solution.size() && i < soln.getSolutionSize() && i < 10; i++)
+        cout << "step " << i << ": actual=" << solution[i] << ", expected=" << soln.getSolutionAt(i) << endl;
+
+    REQUIRE(soln.getSolutionSize() == solution.size());
+
+    for (size_t i = 0; i < solution.size(); i++)
+        if (solution[i] != soln.getSolutionAt(i))
+            FAIL("Solution is incorrect");
+}
+
+void copyRoom(const RoomReader & source, Room * dest)
+{
+    dest->makeRoom(source.getWidth(), source.getHeight());
+    for (int x = 0; x < source.getWidth(); x++)
+    {
+        for (int y = 0; y < source.getHeight(); y++)
+        {
+            if (x < source.getWidth() - 1)
+                dest->setObstacle(x, y, source.isWall(x, y, RoomReader::RIGHTWALL));
+            if (y < source.getHeight() - 1)
+                dest->setObstacle(x, y, source.isWall(x, y, RoomReader::DOWNWALL));
+        }
+    }
+}
+
+void testsolveRoom() {
+    helpSolveRoom(READ_SOLUTION_ROOM("testSolveRoomSmall", 70, 70));
+}
+
