@@ -2,8 +2,8 @@
 
 #include <stdint.h>
 #include <vector>
-#include "cs225/PNG.h"
-#include "cs225/HSLAPixel.h"
+#include "../lib/cs225/PNG.h"
+#include "../lib/cs225/HSLAPixel.h"
 
 using namespace cs225;
 

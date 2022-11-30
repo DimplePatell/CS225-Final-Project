@@ -27,11 +27,11 @@ PNG read_unsolved(const string & filename, int width, int height);
 #define READ_SOLUTION_PNG(func, width, height)  \
     read_solution(string("../tests/soln_") + func + string(".png"), width, height)
 
-/*void djsTestAddElements();
-void djsTestUnion();
-void djsTestSize();
+//void djsTestAddElements();
+//void djsTestUnion();
+//void djsTestSize();
 
-void djsAddElements() {
+void djsTestAddElements() {
     DisjointSets djs;
 	djs.addelements(5);
     if (3 == djs.find(3)) {
@@ -55,20 +55,22 @@ void djsTestSize() {
 	djs.setunion(2, 6);
 	djs.setunion(3, 5);
 	djs.setunion(2, 3);
-    if (4 == disjSets.size(3)) {
+    if (4 == djs.size(3)) {
         std::cout << "djs check size correctly" << std::endl;
     }
-}*/
+}
 
 void testMakeRoomSmall(){
     Room room;
     room.makeRoom(3, 3);
+    //room.drawRoom();
     assert_room_tree(room, 3, 3);
     std::cout<<"test make room small passed"<<std::endl;
 }
 void testMakeRoomLarge(){
     Room room;
     room.makeRoom(75, 75);
+    //room.drawRoom();
     assert_room_tree(room, 75, 75);
     std::cout<<"test make room large passed"<<std::endl;
 }
@@ -268,7 +270,7 @@ void copyRoom(const RoomReader & source, Room * dest)
     }
 }
 
-void testsolveRoom() {
+/*void testsolveRoom() {
     helpSolveRoom(READ_SOLUTION_ROOM("testSolveRoomSmall", 70, 70));
-}
+}*/
 

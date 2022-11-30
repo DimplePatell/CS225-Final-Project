@@ -13,6 +13,5 @@ int main(){
     djsTestAddElements();
     djsTestUnion();
     djsTestSize();
-    testsolveRoom();
 
 }

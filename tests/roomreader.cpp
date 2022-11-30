@@ -1,4 +1,6 @@
 #include "roomreader.h"
+#include "../lib/cs225/PNG.h"
+#include "../lib/cs225/HSLAPixel.h"
 
 RoomReader::RoomReader(const PNG & image)
 	: width((image.width() - 1) / 10),

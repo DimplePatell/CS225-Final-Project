@@ -1,11 +1,12 @@
 #include "room.h"
-#include "disjointsets.cpp"
+#include "disjointsets.h"
 #include <queue>
 #include <iostream>
 #include <vector>
 #include <map>
 #include <algorithm>
 using namespace std;
+using namespace cs225;
 
 #include "../lib/cs225/HSLAPixel.h"
 #include "../lib/cs225/PNG.h"
