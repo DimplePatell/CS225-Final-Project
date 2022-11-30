@@ -63,7 +63,7 @@ void djsTestSize() {
 void testMakeRoomSmall(){
     Room room;
     room.makeRoom(3, 3);
-    room.printRoom();
+    //room.printRoom();
     assert_room_tree(room, 3, 3);
     std::cout<<"test make room small passed"<<std::endl;
 }
