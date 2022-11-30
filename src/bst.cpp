@@ -34,9 +34,9 @@ void BST::BST() {
     }
     
     sort(gamers.begin(), gamers.end(), greater);
-    gamers.erase(gamers.begin() + 10, gamers.end()); //should be + 1000. this is for testing purposes
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    shuffle(gamers.begin(),gamers.end(), std::default_random_engine(seed));
+    gamers.erase(gamers.begin() + 1000, gamers.end());
+    //unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    //shuffle(gamers.begin(),gamers.end(), std::default_random_engine(seed));
 
     for (std::vector<int> i : gamers) {
         insert(i[0], i[1]);
