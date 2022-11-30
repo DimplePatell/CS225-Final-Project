@@ -11,9 +11,9 @@ class Room {
         Room* roomHelper(int w,int h, bool ob);
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
-        void printRoom();
+//         void printRoom();
         std::vector<int> solveRoom();
-        //cs225::PNG* drawRoom() const;
+        cs225::PNG* drawRoom() const;
     private:
         int width;
         int height;
@@ -22,4 +22,7 @@ class Room {
         //"o" = obstacle
         //otherwise empty
         std::vector<std::vector<std::vector<int>>> edges;
+    
+        vector<bool> wallRight;
+        vector<bool> wallDown;
 };
