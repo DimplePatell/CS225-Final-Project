@@ -27,7 +27,7 @@ PNG read_unsolved(const string & filename, int width, int height);
 #define READ_SOLUTION_PNG(func, width, height)  \
     read_solution(string("../tests/soln_") + func + string(".png"), width, height)
 
-void djsTestAddElements();
+/*void djsTestAddElements();
 void djsTestUnion();
 void djsTestSize();
 
@@ -58,19 +58,17 @@ void djsTestSize() {
     if (4 == disjSets.size(3)) {
         std::cout << "djs check size correctly" << std::endl;
     }
-}
+}*/
 
 void testMakeRoomSmall(){
     Room room;
     room.makeRoom(3, 3);
-    //room.printRoom();
     assert_room_tree(room, 3, 3);
     std::cout<<"test make room small passed"<<std::endl;
 }
 void testMakeRoomLarge(){
     Room room;
     room.makeRoom(75, 75);
-    //room.printRoom();
     assert_room_tree(room, 75, 75);
     std::cout<<"test make room large passed"<<std::endl;
 }
@@ -243,15 +241,16 @@ void helpSolveRoom(const RoomReader & soln)
     for (size_t i = 0; i < solution.size() && i < soln.getSolutionSize() && i < 10; i++)
         cout << "step " << i << ": actual=" << solution[i] << ", expected=" << soln.getSolutionAt(i) << endl;
 
-    if (soln.getSolutionSize() == solution.size()) {
-        std::cout << "solve room works" << std::endl;
+    if(soln.getSolutionSize() == solution.size()){
+        cout<<"check size works"<<endl;
     }
-	
-    for (size_t i = 0; i < solution.size(); i++) {
-        if (solution[i] != soln.getSolutionAt(i)) {
-            std::cout << "solve room does not work" << std::endl;
+
+    for (size_t i = 0; i < solution.size(); i++)
+        if (solution[i] != soln.getSolutionAt(i)){
+            cout<<"Solution is incorrect"<<endl;
+            return;
         }
-    }
+            
 }
 
 void copyRoom(const RoomReader & source, Room * dest)
