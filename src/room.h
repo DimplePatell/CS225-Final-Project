@@ -1,7 +1,13 @@
 /* Your code here! */
+
 #pragma once
 #include <vector>
 #include "../lib/cs225/PNG.h"
+
+using namespace std;
+using namespace cs225;
+
+
 class Room {
     public:
         Room();
@@ -12,7 +18,7 @@ class Room {
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
         std::vector<int> solveRoom();
-        cs225::PNG* drawRoom();
+        PNG* drawRoom() const;
     private:
         int width;
         int height;
