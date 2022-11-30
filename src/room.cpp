@@ -215,8 +215,8 @@ using namespace std;
     return vec;
 }
 
-cs225::PNG* drawRoom() {
-    cs225::PNG * room = new PNG(width*10 + 1, height*10 + 1); 
+PNG* Room::drawRoom() const {
+    PNG * room = new PNG(width*10 + 1, height*10 + 1); 
     for (int y = 0; y < (height*10 + 1); ++y) { 
         HSLAPixel& pxl = room -> getPixel(0, y);
         pxl.l = 0.0;
@@ -236,7 +236,7 @@ cs225::PNG* drawRoom() {
             }
             if (wallDown.at(y*width + x)) {
                 for (int z = 0; z <= 10; ++z) {
-                    HSLAPixel& pxl2 = p1 -> getPixel(x*10+z, (y+1)*10);
+                    HSLAPixel& pxl2 = room -> getPixel(x*10+z, (y+1)*10);
                     pxl2.l = 0.0;
                 }
             }
@@ -245,3 +245,4 @@ cs225::PNG* drawRoom() {
     return room;
 
 }
+
