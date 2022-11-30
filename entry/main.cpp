@@ -9,5 +9,9 @@ int main(){
     testMakeRoomSmall();
     testMakeRoomLarge();
     testMakeRoomConnected();
+    
+    djsTestAddElements();
+    djsTestUnion();
+    djsTestSize();
 
 }
