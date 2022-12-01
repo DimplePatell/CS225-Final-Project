@@ -216,34 +216,3 @@ using namespace cs225;
     return vec;
 }
 
-PNG* Room::drawRoom() const {
-    PNG * room = new PNG(width*10 + 1, height*10 + 1); 
-    for (int y = 0; y < (height*10 + 1); ++y) { 
-        HSLAPixel& pxl = room -> getPixel(0, y);
-        pxl.l = 0.0;
-    }
-    for (int x = 10; x < (width*10 + 1); ++x) { 
-        HSLAPixel& pxl2 = room -> getPixel(x, 0);
-        pxl2.l = 0.0;
-    }
-
-    for (int x = 0; x < width; ++x) {
-        for (int y = 0; y < height; ++y) {
-            if (wallRight.at(y*width + x)) {
-                for (int z = 0; z <= 10; ++z) {
-                    HSLAPixel& pxl = room -> getPixel((x+1)*10,y*10+z);
-                    pxl.l = 0.0;
-                }
-            }
-            if (wallDown.at(y*width + x)) {
-                for (int z = 0; z <= 10; ++z) {
-                    HSLAPixel& pxl2 = room -> getPixel(x*10+z, (y+1)*10);
-                    pxl2.l = 0.0;
-                }
-            }
-        }
-    }
-    return room;
-
-}
-
