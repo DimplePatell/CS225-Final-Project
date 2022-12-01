@@ -18,7 +18,7 @@ class Room {
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
         std::vector<int> solveRoom();
-        PNG* drawRoom() const;
+//         PNG* drawRoom() const;
     private:
         int width;
         int height;
