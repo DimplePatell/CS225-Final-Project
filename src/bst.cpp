@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
-#include "large_twitch_features.csv"
 
 void BST::BST() {
 
