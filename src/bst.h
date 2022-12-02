@@ -6,7 +6,6 @@
 #include <string>
 #include "utils.h"
 #include "bst.cpp"
-#include "large_twitch_features.csv"
 
 class BST
 {
