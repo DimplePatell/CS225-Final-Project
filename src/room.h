@@ -17,6 +17,7 @@ class Room {
         Room* roomHelper(int w,int h, bool ob);
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
+        int minDistance(std::vector<int> dist, std::vector<bool> visited);
         std::vector<int> solveRoom();
         PNG* drawRoom() const;
         void setEnemy(int x, int y, bool exists, int difficulty);
