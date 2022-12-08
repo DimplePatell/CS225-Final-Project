@@ -18,7 +18,9 @@ class Room {
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
         std::vector<int> solveRoom();
-//         PNG* drawRoom() const;
+        PNG* drawRoom() const;
+        void setEnemy(int x, int y, bool exists, int difficulty);
+        void setWalkingDistance(int walk);
     private:
         int width;
         int height;
@@ -27,7 +29,5 @@ class Room {
         //"o" = obstacle
         //otherwise empty
         std::vector<std::vector<std::vector<int>>> edges;
-    
-        std::vector<bool> wallRight;
-        std::vector<bool> wallDown;
+        double getColor(int difficulty) const;
 };

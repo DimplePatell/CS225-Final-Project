@@ -90,27 +90,27 @@ using namespace cs225;
     }
     
     bool Room::canTravel(int x, int y, int dir) const{
-        if(x< 0 || y< 0 || 2*x >= width || 2*y >= height || v[2*x][2*y] == 'o' ){
+        if(x< 0 || y< 0 || x >= width || y >= height || v[x][y] == 'o' ){
             return false;
         }
         switch(dir) {
             case 0: 
-                if(v[2*x+1][2*y] != 'o'){
+                if(v[x+1][y] != 'o'){
                     return true;
                 }
                 break;
             case 1: 
-                if(v[2*x][2*y+1] != 'o'){
+                if(v[x][y+1] != 'o'){
                     return true;
                 }
                 break;
             case 2: 
-                if(x > 0 && v[2*x-1][2*y] != 'o'){
+                if(x > 0 && v[x-1][y] != 'o'){
                     return true;
                 }
                 break;
             case 3: 
-                if(y > 0 && v[2*x][2*y-1] != 'o'){
+                if(y > 0 && v[x][y-1] != 'o'){
                     return true;
                 }
                 break;
@@ -215,4 +215,148 @@ using namespace cs225;
     reverse(vec.begin(), vec.end());
     return vec;
 }
-
+void Room::setEnemy(int x, int y, bool exists, int difficulty){
+        if(x >= 0 && x<width && y >= 0 && y<height){
+            if(exists){
+                v[x][y] = 'e';
+                if(x-1 >= 0){
+                    edges[x-1][y][0] += difficulty;
+                }
+                if(y-1 >=0){
+                    edges[x][y-1][1] += difficulty;  
+                }
+                if(x+1 < width){
+                    edges[x+1][y][2] += difficulty;  
+                }
+                if(y+1 < height){
+                    edges[x][y+1][3] += difficulty;
+                }
+            }
+            else{
+                v[x][y] = 'n';
+                if(x-1 >= 0){
+                    edges[x-1][y][0] = 0;
+                }
+                if(y-1 >=0){
+                    edges[x][y-1][1] = 0;  
+                }
+                if(x+1 < width){
+                    edges[x+1][y][2] = 0;  
+                }
+                if(y+1 < height){
+                    edges[x][y+1][3] = 0;
+                } 
+            }
+        }
+    }
+void Room::setWalkingDistance(int walk){
+    if(walk <=0){
+        return;
+    }
+    for(int x=0; x < (int)edges.size(); x++){
+       for(int y=0; y < (int)edges[0].size(); y++){
+            for(int d=0; d<4; d++){
+                if(edges[x][y][d] != -1){
+                    edges[x][y][d] += walk;
+                }
+            }
+        } 
+    }
+}
+    cs225::PNG* Room::drawRoom() const{
+        cs225::PNG* pic = new cs225::PNG(width * 10 + 1, height * 10 + 1);
+        for(unsigned i = 0; i < pic->width(); i++) {
+            pic->getPixel(i, 0) = cs225::HSLAPixel(0, 0, 0);
+            pic->getPixel(i, pic->height()-1) = cs225::HSLAPixel(0, 0, 0);
+        }
+        for(unsigned i = 0; i < pic->height(); i++) {
+            pic->getPixel(0, i) = cs225::HSLAPixel(0, 0, 0);
+            pic->getPixel(pic->width()-1, i) = cs225::HSLAPixel(0, 0, 0);
+        }
+        for(int x = 0; x < width; x++) {
+            for(int y = 0; y < height; y++) {
+                if(v[x][y]=='o') {
+                    for(int k=0; k < 6; k++){
+                       pic->getPixel(x * 10, y * 10 + k + 2) = cs225::HSLAPixel(0, 0, 0); 
+                       pic->getPixel(x * 10 + 9, y * 10 + k + 2) = cs225::HSLAPixel(0, 0, 0);
+                       pic->getPixel(x * 10 + k + 2, y * 10) = cs225::HSLAPixel(0, 0, 0);
+                       pic->getPixel(x * 10 + k + 2, y * 10 + 9) = cs225::HSLAPixel(0, 0, 0);
+                    }
+                    pic->getPixel(x * 10 + 1, y * 10 + 1) = cs225::HSLAPixel(0, 0, 0); 
+                    pic->getPixel(x * 10 + 8, y * 10 + 1) = cs225::HSLAPixel(0, 0, 0);
+                    pic->getPixel(x * 10 + 8, y * 10 + 8) = cs225::HSLAPixel(0, 0, 0);
+                    pic->getPixel(x * 10 + 1, y * 10 + 8) = cs225::HSLAPixel(0, 0, 0);
+                }
+                else if(v[x][y] == 'e'){
+                    int difficulty = 90;//change
+                    double d = getColor(difficulty);
+                    pic->getPixel(x * 10 + 3, y * 10 + 2) = cs225::HSLAPixel(d, 1, 0.5); 
+                    pic->getPixel(x * 10 + 4, y * 10 + 2) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 5, y * 10 + 2) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 6, y * 10 + 2) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 2, y * 10 + 3) = cs225::HSLAPixel(d, 1, 0.5); 
+                    pic->getPixel(x * 10 + 4, y * 10 + 3) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 5, y * 10 + 3) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 7, y * 10 + 3) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 2, y * 10 + 4) = cs225::HSLAPixel(d, 1, 0.5); 
+                    pic->getPixel(x * 10 + 4, y * 10 + 4) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 5, y * 10 + 4) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 7, y * 10 + 4) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 2, y * 10 + 5) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 3, y * 10 + 5) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 4, y * 10 + 5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    pic->getPixel(x * 10 + 5, y * 10 + 5) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 6, y * 10 + 5) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 7, y * 10 + 5) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 2, y * 10 + 6) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 3, y * 10 + 6) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 4, y * 10 + 6) = cs225::HSLAPixel(d, 1, 0.5); 
+                    pic->getPixel(x * 10 + 5, y * 10 + 6) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 6, y * 10 + 6) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 7, y * 10 + 6) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 2, y * 10 + 7) = cs225::HSLAPixel(d, 1, 0.5); 
+                    pic->getPixel(x * 10 + 4, y * 10 + 7) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 5, y * 10 + 7) = cs225::HSLAPixel(d, 1, 0.5);
+                    pic->getPixel(x * 10 + 7, y * 10 + 7) = cs225::HSLAPixel(d, 1, 0.5);
+                    for(int k = 0; k < 10; k++){
+                        pic->getPixel(x * 10, y * 10 + k) = cs225::HSLAPixel(d, 1, 0.5);
+                        pic->getPixel(x * 10 + 9, y * 10 + k) = cs225::HSLAPixel(d, 1, 0.5);
+                        pic->getPixel(x * 10 + k, y * 10) = cs225::HSLAPixel(d, 1, 0.5);
+                        pic->getPixel(x * 10 + k, y * 10 + 9) = cs225::HSLAPixel(d, 1, 0.5);
+                    }
+                }
+                
+            }
+        }
+        return pic;
+    }
+    double Room::getColor(int difficulty) const{
+        if(difficulty <=10){
+            return 125;
+        }
+        if(difficulty <=20){
+            return 175;
+        }
+        if(difficulty <=30){
+            return 200;
+        }
+        if(difficulty <=40){
+            return 55;
+        }
+        if(difficulty <=50){
+            return 35;
+        }
+        if(difficulty <=60){
+            return 20;
+        }
+        if(difficulty <=70){
+            return 330;
+        }
+        if(difficulty <=80){
+            return 295;
+        }
+        if(difficulty <=90){
+            return 275;
+        }
+        return 0;
+    }
