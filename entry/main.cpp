@@ -10,6 +10,8 @@ int main(){
     testMakeRoomLarge();
     testMakeRoomConnected();
     
+    testSolveRoom();
+    
     djsTestAddElements();
     djsTestUnion();
     djsTestSize();
