@@ -77,73 +77,39 @@ void BST::insert(Node*& node, const int & key, const int & value) {
     insert(root, key);
 }
 
-
-/*void BST::swap(Node*& first, Node*& second) {
-    int kith = first->key;
-    int val = first->value;
-
-    first->key = second->key;
-    first->value = second->value;
-
-    second->key = kith;
-    second->value = val;
-}
-
-void BST::remove(const int & key) {
-    remove(root, key);
-}
-
-
-void BST::remove(Node*& subtree, const int & key) {
-    Node *&n = find(subtree, key);
-    Node * leaf;
-    
-    if (n->left == NULL && n->right == NULL) {
-        delete n;
-        n = nullptr;
-    } else if (n->left == NULL) { 
-        leaf = n->right;
-        delete n;
-        n = leaf;
-    } else if (n->right == NULL) { 
-        leaf = n->left;
-        delete n;
-        n = leaf;
-    } else if (n->left != NULL && n->right != NULL) { 
-       
-        Node *curr = n->left;
-        while (curr->right != NULL) {
-            curr = curr->right;
-        }
-        swap(curr, n);
-        remove(n->left, key);
+int BST::numNodes(Node* node) {
+    if (node == NULL) {
+        return 0;
     }
-}/*
+    return 1 + numNodes(node->right) + numNodes(node->left);
+}
 
+void BST::preOrder(Node* n) {
+    allNodes.clear();
+    if (n == NULL) {
+        return;
+    }
+    allNodes.push_back(n->key);
+    preOrder(n->left);
+    preOrder(n->right);
+}
 
+void BST::inOrder(Node* n) {
+    allNodes.clear();
+    if (n == NULL) {
+        return;
+    }
+    preOrder(n->left);
+    allNodes.push_back(n->key);
+    preOrder(n->right);
+}
 
-// template <class K, class V>
-// BST<K, V> listBuild(std::vector<std::pair<K, V>> inList) {
-//     BST<K, V> tree;
-//     for (std::pair<K,V> i : inList) {
-//         tree.insert(i.first, i.second);
-//     }
-//     return tree;
-// }
-
-// template <class K, class V>
-// std::vector<int> allBuild(std::vector<std::pair<K, V>> inList) {
-//     std::vector<int> vect(inList.size());
-
-//     do {
-//         BST<K,V> tree = listBuild(inList);
-//         int h = tree.height();
-//         vect.at(h) += 1;
-//     } while (std::next_permutation(inList.begin(), inList.end()));
-
-//     if (vect.size() == 5) {
-//         vect = {0, 0, 40, 64, 16};
-//     }
-
-//     return vect;
-// }
+void BST::postOrder(Node* n) {
+    allNodes.clear();
+    if (n == NULL) {
+        return;
+    }
+    preOrder(n->left);
+    preOrder(n->right);
+    allNodes.push_back(n->key);
+}

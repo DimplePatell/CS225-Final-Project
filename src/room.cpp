@@ -198,6 +198,29 @@ using namespace cs225;
         }
         return dist;
 }
+
+void Room::addEnemies(BST* enemies) {
+    int num_Enemies = (w*h)/10;
+    for (int i = 0; i < num_Enemies;) {
+        int x = (w*h)/rand();
+        int y = (w*h)/rand();
+        if (v[x][y] != 'o' && x < width && y < height) {
+            int nodes = numNodes(enemies->root);
+            int num = rand()%(nodes + 1);
+            if (num % 3 == 0) {
+                preOrder(enemies->root);
+            } else if (rand % 3 == 1) {
+                inOrder(enemies->root);
+            } else {
+                postOrder(enemies->root);
+            }
+            int diff = enemies->allNodes[rand]/100;
+            setEnemy(x, y, true, diff);
+            i++;
+        }
+    }
+}
+
 void Room::setEnemy(int x, int y, bool exists, int difficulty){
         if(x >= 0 && x<width && y >= 0 && y<height){
             if(exists){
