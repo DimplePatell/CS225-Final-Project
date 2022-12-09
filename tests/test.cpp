@@ -307,7 +307,22 @@ void copyRoom(const RoomReader & source, Room * dest)
     }
 }
 
-/*void testsolveRoom() {
-    helpSolveRoom(READ_SOLUTION_ROOM("testSolveRoomSmall", 70, 70));
-}*/
+void testSolveRoom() {
+    Room room;
+    room = *room.roomHelper(3,3, false);
+    room.setObstacle(0,1, true);
+    room.setObstacle(1,0, false);
+    room.setObstacle(1, 1, false);
+    room.setObstacle(1,2, true);
+    room.setObstacle(2,1, false);
+
+    // n o n
+    // n n o
+    // n n n
+
+    std::vector<int> answr = room.solveRoom();
+    for (auto i = 0; i < (int)answr.size(); ++i) {
+        std::cout <<"solution:" << answr[i] << std::endl;
+    }
+}
 
