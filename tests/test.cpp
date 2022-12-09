@@ -166,6 +166,43 @@ void testSetObstacle(){
     }
     std::cout<< "all set obstacle tests passed" << std::endl;
 }
+void testSetEnemy(){
+    Room room;
+    room = *room.roomHelper(3,3, false);
+    std::vector<int> edge;
+    room.setEnemy(1,1, true, 50);
+    if(room.getObstacle(1,1) == 'e'){
+        std::cout<<"enemy set successful"<<std::endl;
+        edge = room.getEdgesHelper(1,1);
+        if(edge[0] == 50 && edge[1] == 50 && edge[2] == 50 && edge[3] == 50){
+            std::cout<< "edges correct" << std::endl;
+        }
+        else{
+            std::cout<< "edges failed" << std::endl;
+            return;
+        }
+    }
+    else{
+        std::cout<< "set enemy failed" << std::endl;
+        return;
+    }
+    std::cout<< "all set enemy tests passed" << std::endl;
+}
+void testWalkingDistance(){
+    std::vector<int> edge;
+    Room room;
+    room = *room.roomHelper(3,3, false);
+    room.setWalkingDistance(3);
+    edge = room.getEdgesHelper(1,1);
+    if(edge[0] == 3 && edge[1] == 3 && edge[2] == 3 && edge[3] == 3){
+        std::cout<< "edges correct" << std::endl;
+    }
+    else{
+        std::cout<< "test walking distance failed" << std::endl;
+    }
+    std::cout<< "test walking distance passed" << std::endl;
+}
+
 void DFS(Room & room, std::vector<std::vector<int> > * visited, int x, int y, int width, int height, int * calls){
     std::stack< std::pair<int, int> > s;
     s.push(std::make_pair(x, y));
