@@ -153,7 +153,7 @@ using namespace cs225;
         }
     }
 
-    int Room::minDistance(vector<int> dist, vector<bool> visited) {
+    int Room::minDistance(vector<int> dist, vector<bool> visited) const {
         int min = INT_MAX;
         int min_index;
         for (int v = 0; v < width*height; ++v) {
@@ -165,13 +165,13 @@ using namespace cs225;
         return min_index;
     }
 
-    void Room::printSolution(vector<int> dist, int n) {
+    void Room::printSolution(vector<int> dist, int n) const {
         printf("Vertex Distance from Source");
         for (int i = 0; i < width*height; i++)
         printf("%d \t %d", i, dist[i]);
     }
 
-    std::vector<int> Room::solveRoom() {
+    std::vector<int> Room::solveRoom() const {
         vector<int> dist;
         vector<bool> visited;
         map<int, int> steps;
@@ -379,4 +379,21 @@ void Room::setWalkingDistance(int walk){
             return 275;
         }
         return 0;
+    }
+
+    PNG* Room::drawRoomSolution() const {
+        PNG* output = drawRoom();
+        vector<int> solution_vect = solveRoom();
+        for (unsigned i = 0; i < output->width(); ++i) {
+            for (unsigned j = 0; j < output->height(); ++j) {
+                for (unsigned z = 0; z < solution_vect.size(); ++z) {
+                    if ((i*width+j) == z) {
+                        int difficulty = 90;//change
+                        double d = getColor(difficulty);
+                        output->getPixel(i , j) = cs225::HSLAPixel(d, 1, 0.5);
+                    }
+                }
+            }
+        } 
+        return output;
     }
