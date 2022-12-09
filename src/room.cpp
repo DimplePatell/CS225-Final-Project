@@ -156,7 +156,7 @@ using namespace cs225;
     int Room::minDistance(vector<int> dist, vector<bool> visited) {
         int min = INT_MAX;
         int min_index;
-        for (int v = 0; v < width; ++v) {
+        for (int v = 0; v < width*height; ++v) {
             if (visited[v] == false && dist[v] <= min) {
                 min = dist[v];
                 min_index = v;
@@ -165,37 +165,51 @@ using namespace cs225;
         return min_index;
     }
 
+    void Room::printSolution(vector<int> dist, int n) {
+        printf("Vertex Distance from Source");
+        for (int i = 0; i < width*height; i++)
+        printf("%d \t %d", i, dist[i]);
+    }
+
     std::vector<int> Room::solveRoom() {
         vector<int> dist;
         vector<bool> visited;
-        for (int i = 0; i < (width); ++i) {
-            dist[i] = INT_MAX;
-            visited[i] = false;
+        map<int, int> steps;
+        for (int i = 0; i < (width*height); ++i) {
+            dist.push_back(INT_MAX);
+            visited.push_back(false);
         }
+        int val = 0;
+        visited.at(0) = true;
         dist[0] = 0;
-        for (int a = 0; a < width; ++a) {
+        for (int a = 0; a < (width); ++a) {
             int u =  minDistance(dist, visited);
             visited[u] = true;
-            for (int v = 0; v < height; ++v) {
-                if (canTravel(u, v, 0)) {
-                    if (!visited[v] && v[u][v] != 'o' && dist[u] != INT_MAX && (dist[u] + edges[u][v][0] < dist[v])) {
+            for (int v = 0; v < (width*height); ++v) {
+                if (canTravel(u, v, 0) && !visited.at(val+1)) {
+                    if (edges[u][v][0] && dist[u] != INT_MAX && (dist[u] + edges[u][v][0] < dist[v])) {
                     dist[v] = dist[u] + edges[u][v][0];
+                    val++;
                 }
-                } else if (canTravel(u, v, 1)) {
-                    if (!visited[v] && v[u][v] != 'o' && dist[u] != INT_MAX && (dist[u] + edges[u][v][1] < dist[v])) {
+                } else if (canTravel(u, v, 1) && !visited.at(val+ width)) {
+                    if (edges[u][v][1] && dist[u] != INT_MAX && (dist[u] + edges[u][v][1] < dist[v])) {
                     dist[v] = dist[u] + edges[u][v][1];
+                    val += width;
                 }
-                } else if (canTravel(u, v, 2)) {
-                    if (!visited[v] && v[u][v] != 'o' && dist[u] != INT_MAX && (dist[u] + edges[u][v][2] < dist[v])) {
+                } else if (canTravel(u, v, 2) && !visited.at(val-1)) {
+                    if (edges[u][v][2] && dist[u] != INT_MAX && (dist[u] + edges[u][v][2] < dist[v])) {
                     dist[v] = dist[u] + edges[u][v][2];
+                    val--;
                 }
-                } else if (canTravel(u, v, 3)) {
-                    if (!visited[v] && v[u][v] != 'o' && dist[u] != INT_MAX && (dist[u] + edges[u][v][3] < dist[v])) {
+                } else if (canTravel(u, v, 3) && !visited.at(val- width)) {
+                    if (!visited[v] && edges[u][v][3] && dist[u] != INT_MAX && (dist[u] + edges[u][v][3] < dist[v])) {
                     dist[v] = dist[u] + edges[u][v][3];
+                    val -= width;
                 }
                 }
             }
         }
+        printSolution(dist, width);
         return dist;
 }
 
