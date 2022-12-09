@@ -20,6 +20,7 @@ class Room {
         char getObstacle(int x, int y);
         int minDistance(std::vector<int> dist, std::vector<bool> visited);
         std::vector<int> solveRoom();
+        void printSolution(vector<int> dist, int n);
         PNG* drawRoom() const;
         void addEnemies(BST* enemies);
         void setEnemy(int x, int y, bool exists, int difficulty);
