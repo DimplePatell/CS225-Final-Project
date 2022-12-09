@@ -22,6 +22,7 @@ class Room {
         std::vector<int> solveRoom();
         void printSolution(vector<int> dist, int n);
         PNG* drawRoom() const;
+        PNG* drawRoomSolution() const;
         void addEnemies(BST* enemies);
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
