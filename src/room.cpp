@@ -153,63 +153,83 @@ using namespace cs225;
         }
     }
 
-    int Room::minDistance(vector<int> dist, vector<bool> visited) const {
+    int Room::minDistance(vector<int> dist, vector<bool> visited, pair<int,int> elem) const {
         int min = INT_MAX;
         int min_index;
-        for (int v = 0; v < width*height; ++v) {
-            if (visited[v] == false && dist[v] <= min) {
-                min = dist[v];
-                min_index = v;
+        for (int i = 0; i < width; ++i) {
+            for (int j = 0; j < height; ++j) {
+                if (visited[(i*width+j)] == false) {
+                    if (elem.first != 0 && elem.first==i && (elem.second+1 == j) &&  dist[(i*width+(elem.second+1))] <= min) { // up
+                        min = dist[(i*width+(elem.second+1))];
+                        min_index = (i*width+(elem.second+1));
+                    }
+                    if (elem.second != (height - 1) && elem.first==i && (elem.second-1 == j)  && dist[(i*width+(elem.second-1))] <= min) { // down
+                        min = dist[(i*width+(elem.second-1))];
+                        min_index = (i*width+(elem.second-1));
+                    }
+                    if (elem.first != (width-1) && (elem.first+1) ==i && elem.second == j  && dist[(elem.first+1)*width+j] <= min) { // right
+                        min = dist[(elem.first+1)*width+j];
+                        min_index = (elem.first+1)*width+j;
+                    }
+                    if (elem.first != 0 && (elem.first-1) ==i && elem.second== j  && dist[(elem.first-1)*width+j] <= min) { // left
+                        min = dist[(elem.first-1)*width + j];
+                        min_index = (elem.first-1)*width + j;
+                    }
+                }
             }
         }
         return min_index;
     }
 
-    void Room::printSolution(vector<int> dist, int n) const {
-        printf("Vertex Distance from Source");
-        for (int i = 0; i < width*height; i++)
-        printf("%d \t %d", i, dist[i]);
-    }
-
-    std::vector<int> Room::solveRoom() const {
+    vector<int> Room::solveRoom() const{
         vector<int> dist;
         vector<bool> visited;
-        map<int, int> steps;
-        for (int i = 0; i < (width*height); ++i) {
-            dist.push_back(INT_MAX);
-            visited.push_back(false);
-        }
-        int val = 0;
-        visited.at(0) = true;
-        dist[0] = 0;
-        for (int a = 0; a < (width); ++a) {
-            int u =  minDistance(dist, visited);
-            visited[u] = true;
-            for (int v = 0; v < (width*height); ++v) {
-                if (canTravel(u, v, 0) && !visited.at(val+1)) {
-                    if (edges[u][v][0] && dist[u] != INT_MAX && (dist[u] + edges[u][v][0] < dist[v])) {
-                    dist[v] = dist[u] + edges[u][v][0];
-                    val++;
-                }
-                } else if (canTravel(u, v, 1) && !visited.at(val+ width)) {
-                    if (edges[u][v][1] && dist[u] != INT_MAX && (dist[u] + edges[u][v][1] < dist[v])) {
-                    dist[v] = dist[u] + edges[u][v][1];
-                    val += width;
-                }
-                } else if (canTravel(u, v, 2) && !visited.at(val-1)) {
-                    if (edges[u][v][2] && dist[u] != INT_MAX && (dist[u] + edges[u][v][2] < dist[v])) {
-                    dist[v] = dist[u] + edges[u][v][2];
-                    val--;
-                }
-                } else if (canTravel(u, v, 3) && !visited.at(val- width)) {
-                    if (!visited[v] && edges[u][v][3] && dist[u] != INT_MAX && (dist[u] + edges[u][v][3] < dist[v])) {
-                    dist[v] = dist[u] + edges[u][v][3];
-                    val -= width;
-                }
-                }
+        map<int, int> roomMap;
+        for (int i = 0; i < height; ++i) {
+            for (int  j = 0; j < width; ++j) {
+                roomMap.insert({i, j});
+                dist.push_back(INT_MAX);
+                visited.push_back(false);
             }
         }
-        printSolution(dist, width);
+        visited.at(0) = true;
+        dist.at(0) = 0;
+        for (auto elem : roomMap) {
+            int u =  minDistance(dist, visited, elem);
+            if (elem.second == (height - 1) || (u + (width - 1) >= (width*height))) {
+                break;
+            }
+            std::cout<<"u: " << u << std::endl;
+            std::cout<<"x: " << elem.first << std::endl;
+            std::cout<<"y: " << elem.second << std::endl;
+            std::cout << "dist[u]: " << dist[u] << std::endl;
+            visited.at(u) = true;
+            if (!visited[elem.first*width+elem.second] && canTravel(elem.first, elem.second, 0)) {
+                if (edges[elem.first][elem.second][0] && dist[u] != INT_MAX && (dist[u] + edges[elem.first][elem.second][0] < dist[(elem.first*width+elem.second)])) {
+                    std::cout << "up" << std::endl;
+                    dist[(elem.first*width+elem.second)] = dist[u] + edges[elem.first][elem.second][0];
+                }
+            }
+            else if (!visited[elem.first*width+elem.second] && canTravel(elem.first, elem.second, 1)) {
+                    if (edges[elem.first][elem.second][1] && dist[u] != INT_MAX && (dist[u] + edges[elem.first][elem.second][1] < dist[(elem.first*width+elem.second)])) {
+                    std::cout << "down" << std::endl;
+                    dist[(elem.first*width+elem.second)] = dist[u] + edges[elem.first][elem.second][1];
+                }
+            }
+            else if (!visited[elem.first*width+elem.second] && canTravel(elem.first, elem.second, 2)) {
+                    if (edges[elem.first][elem.second][2] && dist[u] != INT_MAX && (dist[u] + edges[elem.first][elem.second][2] < dist[(elem.first*width+elem.second)])) {
+                    std::cout << "left" << std::endl;
+                    dist[(elem.first*width+elem.second)] = dist[u] + edges[elem.first][elem.second][2];
+                }
+            }
+            else if (!visited[elem.first*width+elem.second] && canTravel(elem.first, elem.second, 3)) {
+                    if (edges[elem.first][elem.second][3] && dist[u] != INT_MAX && (dist[u] + edges[elem.first][elem.second][3] < dist[(elem.first*width+elem.second)])) {
+                    std::cout << "right" << std::endl;
+                    dist[(elem.first*width+elem.second)] = dist[u] + edges[elem.first][elem.second][3];
+                }
+            }
+
+            }
         return dist;
 }
 
