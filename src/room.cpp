@@ -391,81 +391,142 @@ void Room::setWalkingDistance(int walk){
         return 0;
     }
 
-    PNG* Room::drawRoomSolution() const {
-        PNG* output = drawRoom();
+    PNG* Room::drawRoomSolution(int difficulty) const {
+        double d = getColor(difficulty);
+        PNG* pic = drawRoom();
         vector<vector<pair<int, int>>> solution = solveRoom();
         pair<int, int> parent;
         pair<int, int> current = {0, 0};
         int dir = 0;
         for(int i = height-1 ; i>=0; i--){
-            if(solution[width -1][i] != {-1,-1}){
+            if(solution[width -1][i] != pair<int,int>{-1,-1}){
                 current = {width-1, i};
             }
         }
-        if(current == {0,0}){
+        if(current == pair<int,int>{0,0}){
             cout<< "no valid solution"<<endl;
-            return output;
+            return pic;
         }
         parent = solution[current.first][current.second];
-        while(parent != {-1,-1}){
+        while(parent != pair<int,int>{-1,-1}){
             if(dir == 1){
                 if(parent.first +1 == current.first){
+                    for (int i = 0; i <= 5; ++i) {  // right
+                        pic->getPixel(parent.first*10+i, parent.second*10+5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // down
+                        pic->getPixel(parent.first*10+5, parent.second*10+j) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw right, down corner
                     dir = 0;
                 }
                 else if(parent.first -1 ==current.first){
+                    for (int i = 0; i <= 5; ++i) { // left
+                        pic->getPixel(parent.first*10+i, parent.second*10-5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // down
+                        pic->getPixel(parent.first*10+5, parent.second*10+j) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw left, down corner
                     dir = 2;
                 }
             }
             else if(dir == 3){
                 if(parent.first +1 == current.first){
+                    for (int i = 0; i <= 5; ++i) { // right
+                        pic->getPixel(parent.first*10+i, parent.second*10+5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // down
+                        pic->getPixel(parent.first*10+5, parent.second*10+j) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw right, up corner
                     dir = 0;
                 }
                 else if(parent.first -1 ==current.first){
+                    for (int i = 0; i <= 5; ++i) { // left
+                        pic->getPixel(parent.first*10+i, parent.second*10-5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // up
+                        pic->getPixel(parent.first*10-5, parent.second*10+j) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw left, up corner
                     dir = 2;
                 }
             }
             else if(dir == 0){
-                if(parent.second +1 == second.first){
+                if(parent.second +1 == current.second){
+                    for (int i = 0; i <= 5; ++i) { //down
+                        pic->getPixel(parent.first*10+5, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // right
+                        pic->getPixel(parent.first*10+j, parent.second*10+5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw down, right corner
                     dir = 1;
                 }
                 else if(parent.second -1 ==current.second){
+                    for (int i = 0; i <= 5; ++i) { // down
+                        pic->getPixel(parent.first*10-5, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // left
+                        pic->getPixel(parent.first*10+j, parent.second*10-5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw down, left corner
                     dir = 3;
                 }
             }
             else if(dir == 2){
                 if(parent.second +1 == current.second){
+                    for (int i = 0; i <= 5; ++i) { // up
+                        pic->getPixel(parent.first*10+5, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
+                    for (int j = 0; j <= 5; ++j) { // right
+                        pic->getPixel(parent.first*10+j, parent.second*10+5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw up, right corner
                     dir = 1;
                 }
                 else if(parent.second -1 ==current.second){
+                    for (int i = 0; i <= 5; ++i) { // up
+                        pic->getPixel(parent.first*10-5, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                    } 
+                    for (int j = 0; j <= 5; ++j) { // left
+                        pic->getPixel(parent.first*10+j, parent.second*10-5) = cs225::HSLAPixel(d, 1, 0.5); 
+                    }
                     //draw up, left corner
                     dir = 3;
                 }
             }            
             else if(parent.first +1 == current.first){
+                for (int i = 0; i < 10; ++i) {
+                        pic->getPixel(parent.first*10, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                }
                 //draw horizontal line
                 dir = 0;
             } 
             else if(parent.first -1 ==current.first){
+                for (int i = 0; i < 10; ++i) {
+                        pic->getPixel(parent.first*10, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                }
                 //draw horizontal line
                 dir =  2;
             }
             else if(parent.second +1 == current.second){
+                for (int i = 0; i < 10; ++i) {
+                        pic->getPixel(parent.first*10, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                }
                 //draw vertical line
                 dir = 1;
             }
             else if(parent.second -1 ==current.second){
+                for (int i = 0; i < 10; ++i) {
+                        pic->getPixel(parent.first*10, parent.second*10+i) = cs225::HSLAPixel(d, 1, 0.5); 
+                }
                 //draw vertical line
                 dir = 3;
             }
             current = parent;
             parent = solution[current.first][current.second];
         }
-        return output;
+        return pic;
     }
