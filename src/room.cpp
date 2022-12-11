@@ -243,7 +243,7 @@ void Room::createEnemies() {
         }  
     }
     
-    sort(enemies.begin(), enemies.end(), greater);
+    sort(enemies.begin(), enemies.end());
     enemies.erase(enemies.begin() + 1000, enemies.end());
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     shuffle(enemies.begin(),enemies.end(), std::default_random_engine(seed));
