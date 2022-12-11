@@ -4,7 +4,7 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include "utils.h"
+//#include "utils.h"
 #include "bst.cpp"
 
 class BST
@@ -29,12 +29,12 @@ class BST
     int find(const int& key);
     void BST::preOrder(Node* n);
     void BST::inOrder(Node* n);
-    void BST::postOrder(Node* n)
+    void BST::postOrder(Node* n);
 
   private:
     Node* root;
     std::vector<int> allNodes;
-    void insert(Node*& node, const int& key, const int& value);
+    //void insert(Node*& node, const int& key, const int& value);
     struct BST::Node* &  find(Node*& node, const int& key);
 };
 

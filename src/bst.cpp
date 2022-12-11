@@ -6,8 +6,9 @@
 #include <algorithm>
 #include <random>
 #include <chrono>
+#include "bst.h"
 
-void BST::BST() {
+BST::BST() {
 
     std::string lines;
     std::ifstream file;
@@ -42,7 +43,7 @@ void BST::BST() {
     }
 }
 
-bool BST::greater(vector<int>& A, vector<int>& B)
+bool BST::greater(std::vector<int>& A, std::vector<int>& B)
 {
     if (A[0] < B[0])
         return true; //no swap
@@ -73,9 +74,9 @@ void BST::insert(const int & key, const int & value) {
     }
 }
 
-void BST::insert(Node*& node, const int & key, const int & value) {
-    insert(root, key);
-}
+// void BST::insert(Node*& node, const int & key, const int & value) {
+//     insert(root, key);
+// }
 
 void BST::preOrder(Node* n) {
     allNodes.clear();
