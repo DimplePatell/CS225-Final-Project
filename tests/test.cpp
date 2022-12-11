@@ -270,11 +270,11 @@ PNG read_solution(const string & filename, int width, int height)
       return output;
 }
 
-void helpSolveRoom(const RoomReader & soln)
+/*void helpSolveRoom(const RoomReader & soln)
 {
     Room room;
     copyRoom(soln, &room);
-    vector<int> solution = room.solveRoom();
+    vector<vector<int>> solution = room.solveRoom();
 
     cout << "first 10 steps in solution:" << endl;
     for (size_t i = 0; i < solution.size() && i < soln.getSolutionSize() && i < 10; i++)
@@ -290,7 +290,7 @@ void helpSolveRoom(const RoomReader & soln)
             return;
         }
             
-}
+}*/
 
 void copyRoom(const RoomReader & source, Room * dest)
 {
@@ -306,7 +306,6 @@ void copyRoom(const RoomReader & source, Room * dest)
         }
     }
 }
-
 void testSolveRoom() {
     Room room;
     room = *room.roomHelper(3,3, false);
@@ -320,9 +319,14 @@ void testSolveRoom() {
     // n n o
     // n n n
 
-    std::vector<int> answr = room.solveRoom();
-    for (auto i = 0; i < (int)answr.size(); ++i) {
-        std::cout <<"solution:" << answr[i] << std::endl;
+    std::vector<std::vector<int>> answr = room.solveRoom();
+    for (unsigned i = 0; i < answr.size(); i++) {
+        for(unsigned j = 0; j < answr[0].size(); j++) {
+            std::cout <<"solution:" << answr[i][j] << std::endl;
+        }
     }
 }
+/*void testsolveRoom() {
+    helpSolveRoom(READ_SOLUTION_ROOM("testSolveRoomSmall", 70, 70));
+}*/
 
