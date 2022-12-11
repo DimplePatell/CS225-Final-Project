@@ -27,7 +27,6 @@ class BST
     bool greater(std::vector<int>& A, std::vector<int>& B);
     void insert(const int& key, const int& value);
     int find(const int& key);
-    int numNodes(Node* node);
     void BST::preOrder(Node* n);
     void BST::inOrder(Node* n);
     void BST::postOrder(Node* n)
