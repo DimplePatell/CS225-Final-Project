@@ -35,7 +35,7 @@ class BST
   private:
     Node* root;
     std::vector<int> allNodes;
-    struct Node* BST::putIn(Node*& node, const int & key, const int & value);
+    struct Node* putIn(Node*& node, const int & key, const int & value);
     struct Node* &  find(Node*& node, const int& key);
 };
 
