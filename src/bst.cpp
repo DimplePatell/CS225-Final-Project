@@ -45,12 +45,15 @@ struct BST::Node* BST::getRoot(){
 }
 std::vector<int> BST::getAllNodes(int c){
     if (c == 0) {
+        allNodes_one.clear();
         preOrder(root);
         return allNodes_one;
     } else if (c == 1) {
+        allNodes_two.clear();
         inOrder(root);
         return allNodes_two;
     } else {
+        allNodes_three.clear();
         postOrder(root);
     }
     return allNodes_three;
