@@ -8,7 +8,7 @@
 
 using namespace std;
 using namespace cs225;
-
+#include <map>
 
 class Room {
     public:
@@ -35,4 +35,5 @@ class Room {
         //otherwise empty
         std::vector<std::vector<std::vector<int>>> edges;
         double getColor(int difficulty) const;
+        std::map<std::vector<int>, int> enemy_difficulties;
 };
