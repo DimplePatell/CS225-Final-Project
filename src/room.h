@@ -30,6 +30,8 @@ class Room {
         void setWalkingDistance(int walk);
         void addEnemies(BST* enemies);
         std::vector<std::vector<int>> getSolved();
+        std::vector<pair<int,int>> getpathDirection();
+        std::vector<std::vector<std::vector<int>>> getEdges();
     private:
         int width;
         int height;
