@@ -21,6 +21,12 @@ using namespace cs225;
     int Room::getHeight(){
         return height;
     }
+    std::vector<pair<int,int>> Room::getpathDirection(){
+        return pathDirection;
+    }
+    std::vector<std::vector<std::vector<int>>> Room::getEdges() {
+        return edges;
+    }
     std::vector<std::vector<int>> Room::getSolved(){
         return solved;
     }
@@ -456,6 +462,7 @@ void Room::setWalkingDistance(int walk){
                         break;
                 }
             }
+            pathDirection.push_back(current);
             next = prev;
             switch(prev) {
                 case(0):
