@@ -77,13 +77,6 @@ void BST::insert(Node*& node, const int & key, const int & value) {
     insert(root, key);
 }
 
-int BST::numNodes(Node* node) {
-    if (node == NULL) {
-        return 0;
-    }
-    return 1 + numNodes(node->right) + numNodes(node->left);
-}
-
 void BST::preOrder(Node* n) {
     allNodes.clear();
     if (n == NULL) {
