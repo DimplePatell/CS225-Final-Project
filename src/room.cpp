@@ -234,8 +234,8 @@ using namespace cs225;
 void Room::addEnemies(BST* enemies) {
     int num_Enemies = (width*height)/10;
     for (int i = 0; i < num_Enemies;) {
-        int x = (width*height)/rand();
-        int y = (width*height)/rand();
+        int x = rand()%width;
+        int y = rand()%height;
         if (v[x][y] != 'o' && x < width && y < height) {
             int num = rand()%(1000);
             std::vector<int> nodes = enemies->getAllNodes(num % 3);
