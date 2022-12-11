@@ -94,7 +94,6 @@ struct BST::Node* BST::putIn(Node*& node, const int & key, const int & value) {
 }
 
 void BST::preOrder(Node* n) {
-    allNodes.clear();
     if (n == NULL) {
         return;
     }
@@ -104,21 +103,19 @@ void BST::preOrder(Node* n) {
 }
 
 void BST::inOrder(Node* n) {
-    allNodes.clear();
     if (n == NULL) {
         return;
     }
-    preOrder(n->left);
+    inOrder(n->left);
     allNodes.push_back(n->key);
-    preOrder(n->right);
+    inOrder(n->right);
 }
 
 void BST::postOrder(Node* n) {
-    allNodes.clear();
     if (n == NULL) {
         return;
     }
-    preOrder(n->left);
-    preOrder(n->right);
+    postOrder(n->left);
+    postOrder(n->right);
     allNodes.push_back(n->key);
 }
