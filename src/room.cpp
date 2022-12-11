@@ -15,6 +15,15 @@ using namespace cs225;
         width = 0;
         height = 0;
     }
+    int Room::getWidth(){
+        return width;
+    }
+    int Room::getHeight(){
+        return height;
+    }
+    std::vector<<std::vector<int>> getSolved(){
+        return solved;
+    }
     Room* Room::roomHelper(int w,int h, bool ob){
         width = w;
         height = h;
@@ -212,6 +221,7 @@ using namespace cs225;
                 parents[x][y-1]=3;
             }
         }
+        solved = dist;
         return parents;
 }
 void Room::addEnemies(BST* enemies) {
@@ -221,11 +231,12 @@ void Room::addEnemies(BST* enemies) {
         int y = (width*height)/rand();
         if (v[x][y] != 'o' && x < width && y < height) {
             int nodes = 1000;
-            int num = rand()%(nodes + 1);
+            //int num = rand()%(nodes + 1);
+            int num = 0;
             if (num % 3 == 0) {
                 enemies->preOrder(enemies->getRoot());
             } else if (num % 3 == 1) {
-                enemies->inOrder(enemies->getRoot());
+               enemies->inOrder(enemies->getRoot());
             } else {
                 enemies->postOrder(enemies->getRoot());
             }

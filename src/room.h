@@ -12,6 +12,8 @@ using namespace cs225;
 class Room {
     public:
         Room();
+        int getWidth();
+        int getHeight();
         void makeRoom(int width, int height);
         bool canTravel(int x, int y, int dir) const;
         void setObstacle(int x, int y, bool exists);
@@ -27,6 +29,7 @@ class Room {
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
         void addEnemies(BST* enemies);
+        std::vector<<std::vector<int>> getSolved();
     private:
         int width;
         int height;
@@ -37,4 +40,5 @@ class Room {
         std::vector<std::vector<std::vector<int>>> edges;
         double getColor(int difficulty) const;
         std::map<std::vector<int>, int> enemy_difficulties;
+        std::vector<std::vector<int>> solved;
 };
