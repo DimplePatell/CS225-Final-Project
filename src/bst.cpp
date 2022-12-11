@@ -13,7 +13,7 @@ BST::BST() {
     std::string lines;
     std::ifstream file;
     file.open("large_twitch_features.csv");
-    std::vector<std::vector<int>> gamers;
+    std::vector<int> gamers;
     
     while (std::getline(file, lines)) {
         std::stringstream ss(lines);
@@ -26,78 +26,65 @@ BST::BST() {
             
         }
         std::vector<int> temp;
-        if (std::stoi(row[0]) >= 0 && std::stoi(row[5]) >= 0) {
-            temp.push_back(std::stoi(row[0]));
-            temp.push_back(std::stoi(row[5]));
-            gamers.push_back(temp);
+        if (std::stoi(row[0]) >= 0) {
+            gamers.push_back(std::stoi(row[0]));
         }  
     }
     
     sort(gamers.begin(), gamers.end());
-    //gamers.erase(gamers.begin(), gamers.end()); //should be 1000, for testing purposes only
-    int c = 0;
-    for (std::vector<int> i : gamers) {
-        if (c == 1000) {
-            break;
-        }
-        insert(i[0], i[1]);
-        c++;
+    gamers.erase(gamers.begin() + 1000, gamers.end());
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine e(seed);
+    std::shuffle(gamers.begin(), gamers.end(), e);
+    for (int i : gamers) {
+        insert(i);
     }
 }
 struct BST::Node* BST::getRoot(){
     return root;
 }
-std::vector<int> BST::getAllNodes(){
-    return allNodes;
-}
-bool BST::greater(std::vector<int>& A, std::vector<int>& B)
-{
-    if (A[0] < B[0])
-        return true; //no swap
-    //swap
-    return false;
-}
-
-
-// int BST::find(const int& key) {
-//     return find(root, key)->value;
-// }
-
-struct BST::Node* & BST::find(Node* & subtree, const int& key) {
-    if (subtree == NULL || subtree->key == key) {
-        return subtree;
-    }
-    if (key < subtree->key) {
-        return find(subtree->left, key);
-    }
-    return find(subtree->right, key);
-}
-
-void BST::insert(const int & key, const int & value) {
-    if (find(root, key) == NULL) {
-        find(root, key) = new Node(key, value);
+std::vector<int> BST::getAllNodes(int c){
+    if (c == 0) {
+        preOrder(root);
+        return allNodes_one;
+    } else if (c == 1) {
+        inOrder(root);
+        return allNodes_two;
     } else {
-        root = putIn(root, key, value);
+        postOrder(root);
     }
+    return allNodes_three;
 }
 
-struct BST::Node* BST::putIn(Node*& node, const int & key, const int & value) {
-    if (node == null)  {
-        return new Node(key, value);
+void BST::insert(const int & key) {
+    Node* n = new Node(key);
+    if (root == NULL) {
+        root = n;
+        return;
     }
-    if (key < node->key) {
-        node.left = putIn(node.left, key, value);
-    } else
-        node.right = putIn(node.right, key, value);
+    Node* back = NULL;
+    Node* temp = root;
+    while (temp) {
+        if (temp->key > key) {
+            back = temp;
+            temp = temp->left;
+        } else if (temp->key < key) {
+            back = temp;
+            temp = temp->right;
+        }
     }
-    return node;
+    if (back->key > key) {
+        back->left = n;
+    } else {
+        back->right = n;
+    }
 }
 
 void BST::preOrder(Node* n) {
     if (n == NULL) {
         return;
     }
-    allNodes.push_back(n->key);
+    allNodes_one.push_back(n->key);
     preOrder(n->left);
     preOrder(n->right);
 }
@@ -107,7 +94,7 @@ void BST::inOrder(Node* n) {
         return;
     }
     inOrder(n->left);
-    allNodes.push_back(n->key);
+    allNodes_two.push_back(n->key);
     inOrder(n->right);
 }
 
@@ -117,5 +104,5 @@ void BST::postOrder(Node* n) {
     }
     postOrder(n->left);
     postOrder(n->right);
-    allNodes.push_back(n->key);
+    allNodes_three.push_back(n->key);
 }
