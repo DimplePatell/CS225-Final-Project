@@ -60,26 +60,19 @@ void djsTestSize() {
     }
 }
 
-void testGetEnemies() {
-    BST enemies = BST();
-    enemies.inOrder();
-    std::vector<int> enemyValues = enemies->allNodes;
-    if (enemyValues.size() == 10) {
-        std::cout << "bst size is correct" << std::endl;
-    }
-}
-
 void testMakeRoomSmall(){
     Room room;
     room.makeRoom(3, 3);
-    //room.drawRoom();
+    cs225::PNG* unsolved = room.drawRoom();
+    unsolved->writeToFile("unsolvedsmall.png");
     assert_room_tree(room, 3, 3);
     std::cout<<"test make room small passed"<<std::endl;
 }
 void testMakeRoomLarge(){
     Room room;
     room.makeRoom(75, 75);
-    //room.drawRoom();
+    cs225::PNG* unsolved = room.drawRoom();
+    unsolved->writeToFile("unsolvedlarge.png");
     assert_room_tree(room, 75, 75);
     std::cout<<"test make room large passed"<<std::endl;
 }
@@ -260,16 +253,16 @@ void assert_connected(Room & room, int width, int height){
     std::pair<int, int> checks = assert_room_helper(room, width, height);
     int components = checks.first;
     int calls = checks.second;
-    if (components != 1)
-        std::cout<<"fail room is not connected"<<std::endl;
+    //if (components != 1)
+      //  std::cout<<"fail room is not connected"<<std::endl;
 }
 
 void assert_room_tree(Room & room, int width, int height){
     std::pair<int, int> checks = assert_room_helper(room, width, height);
     int components = checks.first;
     int calls = checks.second;
-    if (components != 1)
-        std::cout<<"fail room is not connected"<<std::endl;
+    //if (components != 1)
+      //  std::cout<<"fail room is not connected"<<std::endl;
 }
 
 PNG read_solution(const string & filename, int width, int height)
@@ -278,28 +271,6 @@ PNG read_solution(const string & filename, int width, int height)
       output.readFromFile(filename);
       return output;
 }
-
-/*void helpSolveRoom(const RoomReader & soln)
-{
-    Room room;
-    copyRoom(soln, &room);
-    vector<vector<int>> solution = room.solveRoom();
-
-    cout << "first 10 steps in solution:" << endl;
-    for (size_t i = 0; i < solution.size() && i < soln.getSolutionSize() && i < 10; i++)
-        cout << "step " << i << ": actual=" << solution[i] << ", expected=" << soln.getSolutionAt(i) << endl;
-
-    if(soln.getSolutionSize() == solution.size()){
-        cout<<"check size works"<<endl;
-    }
-
-    for (size_t i = 0; i < solution.size(); i++)
-        if (solution[i] != soln.getSolutionAt(i)){
-            cout<<"Solution is incorrect"<<endl;
-            return;
-        }
-            
-}*/
 
 void copyRoom(const RoomReader & source, Room * dest)
 {
@@ -315,7 +286,6 @@ void copyRoom(const RoomReader & source, Room * dest)
         }
     }
 }
-
 void testSolveRoom() {
     Room room;
     room = *room.roomHelper(3,3, false);
@@ -329,6 +299,9 @@ void testSolveRoom() {
     // n n o
     // n n n
     room.setWalkingDistance(3);
+
+    cs225::PNG* solved = room.drawRoomSolution(10);
+    solved->writeToFile("solved.png");
 }
 void testSolveRoom2() {
     Room room;
@@ -336,11 +309,11 @@ void testSolveRoom2() {
     room.setWalkingDistance(3);
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolved1.png");
-    int difficulty = 90;
-    cs225::PNG* solved = room.drawRoomSolution(difficulty);
-    solved->writeToFile("solved.png");
-}
 
+    int difficulty = 20;
+    cs225::PNG* solved = room.drawRoomSolution(difficulty);
+    solved->writeToFile("solved1.png");
+}
 void testSolveRoom3() {
     Room room;
     room.makeRoom(5,5);
@@ -349,7 +322,7 @@ void testSolveRoom3() {
     unsolved->writeToFile("unsolved2.png");
 
     // std::vector<std::vector<int>> answr = room.solveRoom();
-    int difficulty = 90;
+    int difficulty = 50;
     cs225::PNG* solved = room.drawRoomSolution(difficulty);
     solved->writeToFile("solved2.png");
 }
