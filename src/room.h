@@ -25,7 +25,9 @@ class Room {
         pair<int,int> minDistance(vector<vector<int>> dist, vector<vector<bool>> visited) const;
         PNG* drawRoom() const;
         PNG* drawRoomSolution(int difficulty) const;
-        //void addEnemies(BST* enemies);
+        void createEnemies();
+        bool greater(std::vector<int>& A, std::vector<int>& B);
+        void addEnemies();
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
     private:
@@ -37,5 +39,6 @@ class Room {
         //otherwise empty
         std::vector<std::vector<std::vector<int>>> edges;
         double getColor(int difficulty) const;
+        std::vector<std::vector<int>> enemies;
         std::map<std::vector<int>, int> enemy_difficulties;
 };

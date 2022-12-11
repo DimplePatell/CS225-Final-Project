@@ -60,6 +60,15 @@ void djsTestSize() {
     }
 }
 
+void testGetEnemies() {
+    BST enemies = BST();
+    enemies.inOrder();
+    std::vector<int> enemyValues = enemies->allNodes;
+    if (enemyValues.size() == 10) {
+        std::cout << "bst size is correct" << std::endl;
+    }
+}
+
 void testMakeRoomSmall(){
     Room room;
     room.makeRoom(3, 3);
