@@ -59,31 +59,39 @@ bool BST::greater(std::vector<int>& A, std::vector<int>& B)
 }
 
 
-int BST::find(const int& key) {
-    return find(root, key)->value;
-}
+// int BST::find(const int& key) {
+//     return find(root, key)->value;
+// }
 
 struct BST::Node* & BST::find(Node* & subtree, const int& key) {
-   
-    if (subtree != NULL) {
-        if (key < subtree->key) {
-            return find(subtree->left, key);
-        } else if (key > subtree->key) {
-            return find(subtree->right, key);
-        }
+    if (subtree == NULL || subtree->key == key) {
+        return subtree;
     }
-    return subtree;
+    if (key < subtree->key) {
+        return find(subtree->left, key);
+    }
+    return find(subtree->right, key);
 }
 
 void BST::insert(const int & key, const int & value) {
     if (find(root, key) == NULL) {
         find(root, key) = new Node(key, value);
+    } else {
+        root = putIn(root, key, value);
     }
 }
 
-// void BST::insert(Node*& node, const int & key, const int & value) {
-//     insert(root, key);
-// }
+struct BST::Node* BST::putIn(Node*& node, const int & key, const int & value) {
+    if (node == null)  {
+        return new Node(key, value);
+    }
+    if (key < node->key) {
+        node.left = putIn(node.left, key, value);
+    } else
+        node.right = putIn(node.right, key, value);
+    }
+    return node;
+}
 
 void BST::preOrder(Node* n) {
     allNodes.clear();
