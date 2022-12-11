@@ -38,7 +38,7 @@ BST::BST() {
     int c = 0;
     for (std::vector<int> i : gamers) {
         if (c == 1000) {
-            break
+            break;
         }
         insert(i[0], i[1]);
         c++;
