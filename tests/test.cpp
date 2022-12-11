@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <stack>
+#include <limits.h>
 #include "roomreader.h"
 #include <catch2/catch_test_macros.hpp>
 
@@ -65,7 +66,7 @@ void testMakeRoomSmall(){
     room.makeRoom(3, 3);
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolvedsmall.png");
-    assert_room_tree(room, 3, 3);
+    assert_room_tree(room, room.getWidth(), room.getHeight());
     std::cout<<"test make room small passed"<<std::endl;
 }
 void testMakeRoomLarge(){
@@ -73,13 +74,13 @@ void testMakeRoomLarge(){
     room.makeRoom(75, 75);
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolvedlarge.png");
-    assert_room_tree(room, 75, 75);
+    assert_room_tree(room, room.getWidth(), room.getHeight());
     std::cout<<"test make room large passed"<<std::endl;
 }
 void testMakeRoomConnected(){
     Room room;
     room.makeRoom(15, 15);
-    assert_connected(room, 15, 15);
+    assert_connected(room, room.getWidth(), room.getHeight());
     std::cout<<"test make room connected passed"<<std::endl;
 }
 void testCanTravel(){
@@ -303,28 +304,56 @@ void testSolveRoom() {
     cs225::PNG* solved = room.drawRoomSolution(10);
     solved->writeToFile("solved.png");
 }
-void testSolveRoom2() {
+void testSolveRoomSmall(){
     Room room;
     room.makeRoom(3,3);
     room.setWalkingDistance(3);
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolved1.png");
-
+    std::cout<<"unsolved 1"<<std::endl;
     int difficulty = 20;
     cs225::PNG* solved = room.drawRoomSolution(difficulty);
     solved->writeToFile("solved1.png");
+    std::vector<std::vector<int>> d = room.getSolved();
+    for(int x = 0; x < (int)d.size(); x++){
+        for(int y = 0; y < (int)d[x].size(); y++){
+            if(d[x][y] == INT_MAX && room.getObstacle(x,y) != 'o'){
+                std::cout<<"Dijkstra's Solution Vector Failed"<<std::endl;
+                return;
+            }
+            if(d[x][y] != INT_MAX && room.getObstacle(x,y) == 'o'){
+                std::cout<<"Dijkstra's Solution Vector Failed"<<std::endl;
+                return;
+            }
+        }
+    }
+    std::cout<<"Test Solution Small Passed"<<std::endl;
+
 }
-void testSolveRoom3() {
+void testSolveRoomLarge() {
     Room room;
-    room.makeRoom(5,5);
+    room.makeRoom(75,75);
     room.setWalkingDistance(2);
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolved2.png");
-
-    // std::vector<std::vector<int>> answr = room.solveRoom();
+    std::cout<<"unsolved 2"<<std::endl;
     int difficulty = 50;
     cs225::PNG* solved = room.drawRoomSolution(difficulty);
     solved->writeToFile("solved2.png");
+    std::vector<std::vector<int>> d = room.getSolved();
+    for(int x = 0; x < (int)d.size(); x++){
+        for(int y = 0; y < (int)d[x].size(); y++){
+            if(d[x][y] == INT_MAX && room.getObstacle(x,y) != 'o'){
+                std::cout<<"Dijkstra's Solution Vector Failed"<<std::endl;
+                return;
+            }
+            if(d[x][y] != INT_MAX && room.getObstacle(x,y) == 'o'){
+                std::cout<<"Dijkstra's Solution Vector Failed"<<std::endl;
+                return;
+            }
+        } 
+    }
+    std::cout<<"Test Solution Large Passed"<<std::endl;
 }
 
 
