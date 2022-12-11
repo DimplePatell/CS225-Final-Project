@@ -175,7 +175,7 @@ using namespace cs225;
         return min_index;
     }
 
-    vector<vector<int>> Room::solveRoom() const{
+    vector<vector<pair<int,int>>> Room::solveRoom() const{
         vector<vector<int>> dist(width,vector<int>(height,INT_MAX));
         vector<vector<bool>> visited(width,vector<bool>(height,false));
         vector<vector<pair<int,int>>> parents(width,vector<pair<int,int>>(height,{-1, -1}));
@@ -212,7 +212,7 @@ using namespace cs225;
                 parents[x][y-1]={x,y};
             }
         }
-        return dist;
+        return parents;
 }
 
 void Room::addEnemies(BST* enemies) {
@@ -391,19 +391,81 @@ void Room::setWalkingDistance(int walk){
         return 0;
     }
 
-    /*PNG* Room::drawRoomSolution() const {
+    PNG* Room::drawRoomSolution() const {
         PNG* output = drawRoom();
-        vector<vector<int>> solution_vect = solveRoom();
-        for (unsigned i = 0; i < output->width(); ++i) {
-            for (unsigned j = 0; j < output->height(); ++j) {
-                for (unsigned z = 0; z < solution_vect.size(); ++z) {
-                    if ((i*width+j) == z) {
-                        int difficulty = 90;//change
-                        double d = getColor(difficulty);
-                        output->getPixel(i , j) = cs225::HSLAPixel(d, 1, 0.5);
-                    }
+        vector<vector<pair<int, int>>> solution = solveRoom();
+        pair<int, int> parent;
+        pair<int, int> current = {0, 0};
+        int dir = 0;
+        for(int i = height-1 ; i>=0; i--){
+            if(solution[width -1][i] != {-1,-1}){
+                current = {width-1, i};
+            }
+        }
+        if(current == {0,0}){
+            cout<< "no valid solution"<<endl;
+            return output;
+        }
+        parent = solution[current.first][current.second];
+        while(parent != {-1,-1}){
+            if(dir == 1){
+                if(parent.first +1 == current.first){
+                    //draw right, down corner
+                    dir = 0;
+                }
+                else if(parent.first -1 ==current.first){
+                    //draw left, down corner
+                    dir = 2;
                 }
             }
-        } 
+            else if(dir == 3){
+                if(parent.first +1 == current.first){
+                    //draw right, up corner
+                    dir = 0;
+                }
+                else if(parent.first -1 ==current.first){
+                    //draw left, up corner
+                    dir = 2;
+                }
+            }
+            else if(dir == 0){
+                if(parent.second +1 == second.first){
+                    //draw down, right corner
+                    dir = 1;
+                }
+                else if(parent.second -1 ==current.second){
+                    //draw down, left corner
+                    dir = 3;
+                }
+            }
+            else if(dir == 2){
+                if(parent.second +1 == current.second){
+                    //draw up, right corner
+                    dir = 1;
+                }
+                else if(parent.second -1 ==current.second){
+                    //draw up, left corner
+                    dir = 3;
+                }
+            }            
+            else if(parent.first +1 == current.first){
+                //draw horizontal line
+                dir = 0;
+            } 
+            else if(parent.first -1 ==current.first){
+                //draw horizontal line
+                dir =  2;
+            }
+            else if(parent.second +1 == current.second){
+                //draw vertical line
+                dir = 1;
+            }
+            else if(parent.second -1 ==current.second){
+                //draw vertical line
+                dir = 3;
+            }
+            current = parent;
+            parent = solution[current.first][current.second];
+        }
         return output;
-    }*/
+    }
