@@ -304,6 +304,7 @@ void testSolveRoom() {
     cs225::PNG* solved = room.drawRoomSolution(10);
     solved->writeToFile("solved.png");
 }
+
 void testSolveRoomSmall(){
     Room room;
     room.makeRoom(3,3);
@@ -327,34 +328,31 @@ void testSolveRoomSmall(){
             }
         }
     }
-	
     std::vector<pair<int,int>> pathDir = room.getpathDirection();
     pathDir.push_back({0,0});
     std::vector<std::vector<std::vector<int>>> edges = room.getEdges();
     int edgeVal = 0;
-    int solEdgeVal = 0;
+    int solEdgeVal = d[pathDir[0].first][pathDir[0].second];
     for (unsigned i = 0; i < (pathDir.size()-1); ++i) {
-        std::cout << "posx: " << pathDir[i].first << "   posy: " <<  pathDir[i].second << std::endl;
         if (pathDir[i].first - pathDir[i+1].first == 1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][2];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
         if (pathDir[i].first - pathDir[i+1].first == -1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][0];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
         if (pathDir[i].second - pathDir[i+1].second == 1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][3];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
         if (pathDir[i].second - pathDir[i+1].second == -1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][1];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
     }
 
-    std::cout << "EdgeVal: "<< edgeVal << "  solEdgeVal: " << solEdgeVal << std::endl;
-    std::cout<<"Test Solution Small Passed"<<std::endl;
+    if (edgeVal != solEdgeVal) {
+        std::cout << "Does not find shortest solution" << std::endl;
+    } else {
+        std::cout << "Finds shortest solution" << std::endl;
+    }
     std::cout<<"Test Solution Small Passed"<<std::endl;
 
 }
@@ -381,7 +379,31 @@ void testSolveRoomLarge() {
             }
         } 
     }
+
+    std::vector<pair<int,int>> pathDir = room.getpathDirection();
+    pathDir.push_back({0,0});
+    std::vector<std::vector<std::vector<int>>> edges = room.getEdges();
+    int edgeVal = 0;
+    int solEdgeVal = d[pathDir[0].first][pathDir[0].second];
+    for (unsigned i = 0; i < (pathDir.size()-1); ++i) {
+        if (pathDir[i].first - pathDir[i+1].first == 1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][2];
+        }
+        if (pathDir[i].first - pathDir[i+1].first == -1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][0];
+        }
+        if (pathDir[i].second - pathDir[i+1].second == 1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][3];
+        }
+        if (pathDir[i].second - pathDir[i+1].second == -1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][1];
+        }
+    }
+
+    if (edgeVal != solEdgeVal) {
+        std::cout << "Does not find shortest solution" << std::endl;
+    } else {
+        std::cout << "Finds shortest solution" << std::endl;
+    }
     std::cout<<"Test Solution Large Passed"<<std::endl;
 }
-
-
