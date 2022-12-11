@@ -7,7 +7,6 @@
 #include <string>
 #include <stack>
 #include <limits.h>
-#include "roomreader.h"
 #include <catch2/catch_test_macros.hpp>
 
 
@@ -20,13 +19,6 @@ void assert_room_tree(Room& room, int width, int height);
 void assert_connected(Room & room, int width, int height);
 std::pair<int, int> assert_room_helper(Room & room, int width, int height);
 void DFS(Room & room, std::vector<std::vector<int> > * visited, int x, int y, int width, int height, int * calls);
-void copyRoom(const RoomReader & source, Room * dest);
-PNG read_solution(const string & filename, int width, int height);
-PNG read_unsolved(const string & filename, int width, int height);
-#define READ_SOLUTION_ROOM(func, width, height)  \
-    RoomReader(READ_SOLUTION_PNG(func, width, height))
-#define READ_SOLUTION_PNG(func, width, height)  \
-    read_solution(string("../tests/soln_") + func + string(".png"), width, height)
 
 //void djsTestAddElements();
 //void djsTestUnion();
@@ -273,20 +265,6 @@ PNG read_solution(const string & filename, int width, int height)
       return output;
 }
 
-void copyRoom(const RoomReader & source, Room * dest)
-{
-    dest->makeRoom(source.getWidth(), source.getHeight());
-    for (int x = 0; x < source.getWidth(); x++)
-    {
-        for (int y = 0; y < source.getHeight(); y++)
-        {
-            if (x < source.getWidth() - 1)
-                dest->setObstacle(x, y, source.isWall(x, y, RoomReader::RIGHTWALL));
-            if (y < source.getHeight() - 1)
-                dest->setObstacle(x, y, source.isWall(x, y, RoomReader::DOWNWALL));
-        }
-    }
-}
 void testSolveRoom() {
     Room room;
     room = *room.roomHelper(3,3, false);
@@ -304,7 +282,6 @@ void testSolveRoom() {
     cs225::PNG* solved = room.drawRoomSolution(10);
     solved->writeToFile("solved.png");
 }
-
 void testSolveRoomSmall(){
     Room room;
     room.makeRoom(3,3);
