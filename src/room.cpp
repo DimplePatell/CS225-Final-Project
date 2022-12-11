@@ -237,7 +237,7 @@ void Room::addEnemies(BST* enemies) {
         int x = rand()%width;
         int y = rand()%height;
         if (v[x][y] != 'o' && x < width && y < height) {
-            int num = rand()%(1000);
+            int num = rand()%(enemies->getAllNodes(0).size());
             std::vector<int> nodes = enemies->getAllNodes(num % 3);
             int diff = nodes[num]/1000;
             std::vector<int> temp{x, y};
