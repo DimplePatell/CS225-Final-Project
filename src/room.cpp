@@ -178,6 +178,7 @@ using namespace cs225;
     vector<vector<int>> Room::solveRoom() const{
         vector<vector<int>> dist(width,vector<int>(height,INT_MAX));
         vector<vector<bool>> visited(width,vector<bool>(height,false));
+        vector<vector<pair<int,int>>> parents(width,vector<pair<int,int>>(height,{-1, -1}));
         dist[0][0] = 0;
         int count = 0;
         for (int i = 0; i < width; i++) {
@@ -187,22 +188,28 @@ using namespace cs225;
                 }
             }
         }
+        parents[0][0] = {-1, -1};
         for(int c = 0; c < width*height-1-count; c++) {
             pair<int,int> p = minDistance(dist,visited);
             int x = p.first;
             int y = p.second;
             visited[x][y] = true;
+            vector<pair<int,int>> v1;
             if (canTravel(x, y, 0) &&  !visited[x+1][y] && dist[x][y] != INT_MAX && dist[x][y] + edges[x][y][0] < dist[x+1][y]) { // right
                 dist[x+1][y] = dist[x][y] + edges[x][y][0];
+                parents[x+1][y]={x,y};
             }
             if (canTravel(x, y, 1) &&  !visited[x][y+1] && dist[x][y] != INT_MAX && dist[x][y] + edges[x][y][1] < dist[x][y+1]) { // down
                 dist[x][y+1] = dist[x][y] + edges[x][y][1];
+                parents[x][y+1]={x,y};
             }
             if (canTravel(x, y, 2) &&  !visited[x-1][y] && dist[x][y] != INT_MAX && dist[x][y] + edges[x][y][2] < dist[x-1][y]) { // left
                 dist[x-1][y] = dist[x][y] + edges[x][y][2];
+                parents[x-1][y]={x,y};
             }
             if (canTravel(x, y, 3) &&  !visited[x][y-1] && dist[x][y] != INT_MAX && dist[x][y] + edges[x][y][3] < dist[x][y-1]) { // up
                 dist[x][y-1] = dist[x][y] + edges[x][y][3];
+                parents[x][y-1]={x,y};
             }
         }
         return dist;
