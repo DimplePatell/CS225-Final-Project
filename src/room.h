@@ -3,7 +3,8 @@
 #pragma once
 #include <vector>
 #include "../lib/cs225/PNG.h"
-#include "bst.h"
+//#include "bst.h"
+
 
 using namespace std;
 using namespace cs225;
@@ -18,11 +19,11 @@ class Room {
         Room* roomHelper(int w,int h, bool ob);
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
-        int minDistance(std::vector<int> dist, std::vector<bool> visited) const;
-        std::vector<int> solveRoom() const;
+        vector<vector<int>> solveRoom() const;
+        //void printSolution(vector<int> dist, int n) const;
+        pair<int,int> minDistance(vector<vector<int>> dist, vector<vector<bool>> visited) const;
         PNG* drawRoom() const;
-        PNG* drawRoomSolution() const;
-        void addEnemies(BST* enemies);
+        //void addEnemies(BST* enemies);
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
     private:
