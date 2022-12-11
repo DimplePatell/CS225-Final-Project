@@ -208,11 +208,11 @@ using namespace cs225;
         return dist;
 }
 
-/*void Room::addEnemies(BST* enemies) {
-    int num_Enemies = (w*h)/10;
+void Room::addEnemies(BST* enemies) {
+    int num_Enemies = (width*height)/10;
     for (int i = 0; i < num_Enemies;) {
-        int x = (w*h)/rand();
-        int y = (w*h)/rand();
+        int x = (width*height)/rand();
+        int y = (width*height)/rand();
         if (v[x][y] != 'o' && x < width && y < height) {
             int nodes = numNodes(enemies->root);
             int num = rand()%(nodes + 1);
@@ -224,11 +224,13 @@ using namespace cs225;
                 postOrder(enemies->root);
             }
             int diff = enemies->allNodes[rand]/100;
+            std::vector<int> temp{x, y};
+            enemy_diffifulties.insert({temp, diff});
             setEnemy(x, y, true, diff);
             i++;
         }
     }
-}*/
+}
 
 void Room::setEnemy(int x, int y, bool exists, int difficulty){
         if(x >= 0 && x<width && y >= 0 && y<height){
@@ -303,7 +305,13 @@ void Room::setWalkingDistance(int walk){
                     pic->getPixel(x * 10 + 1, y * 10 + 8) = cs225::HSLAPixel(0, 0, 0);
                 }
                 else if(v[x][y] == 'e'){
-                    int difficulty = 90;//change
+                    int difficulty = 0;
+                    for (auto & instance : enemy_difficulties) {
+                        std::vector<int> temp{x, y};
+                        if (instance.first == temp) {
+                         difficulty = instance.second;
+                        }
+                    }
                     double d = getColor(difficulty);
                     pic->getPixel(x * 10 + 3, y * 10 + 2) = cs225::HSLAPixel(d, 1, 0.5); 
                     pic->getPixel(x * 10 + 4, y * 10 + 2) = cs225::HSLAPixel(d, 1, 0.5);
