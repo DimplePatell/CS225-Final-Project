@@ -129,11 +129,15 @@ using namespace cs225;
                     edges[x][y-1][1] = -1;  
                 }
                 if(x+1 < width){
-                edges[x+1][y][2] = -1;  
+                    edges[x+1][y][2] = -1;  
                 }
                 if(y+1 < height){
                     edges[x][y+1][3] = -1;
                 }
+                edges[x][y][0] = -1;
+                edges[x][y][1] = -1;
+                edges[x][y][2] = -1;
+                edges[x][y][3] = -1;
             }
             else{
                 v[x][y] = 'n';
@@ -149,6 +153,10 @@ using namespace cs225;
                 if(y+1 < height){
                     edges[x][y+1][3] = 0;
                 } 
+                edges[x][y][0] = 0;
+                edges[x][y][1] = 0;
+                edges[x][y][2] = 0;
+                edges[x][y][3] = 0;
             }
         }
     }
@@ -171,7 +179,15 @@ using namespace cs225;
         vector<vector<int>> dist(width,vector<int>(height,INT_MAX));
         vector<vector<bool>> visited(width,vector<bool>(height,false));
         dist[0][0] = 0;
-        for(int c = 0; c < width*height-1; c++) {
+        int count = 0;
+        for (int i = 0; i < width; i++) {
+            for(int j = 0; j < height; j++){
+                if(v[i][j] == 'o') {
+                    count++;
+                }
+            }
+        }
+        for(int c = 0; c < width*height-1-count; c++) {
             pair<int,int> p = minDistance(dist,visited);
             int x = p.first;
             int y = p.second;
@@ -192,13 +208,14 @@ using namespace cs225;
         return dist;
 }
 
-void Room::addEnemies(BST* enemies) {
-    int num_Enemies = (width*height)/10;
+/*void Room::addEnemies(BST* enemies) {
+    int num_Enemies = (w*h)/10;
     for (int i = 0; i < num_Enemies;) {
-        int x = (width*height)/rand();
-        int y = (width*height)/rand();
+        int x = (w*h)/rand();
+        int y = (w*h)/rand();
         if (v[x][y] != 'o' && x < width && y < height) {
-            int num = rand()%(1000 + 1);
+            int nodes = numNodes(enemies->root);
+            int num = rand()%(nodes + 1);
             if (num % 3 == 0) {
                 preOrder(enemies->root);
             } else if (rand % 3 == 1) {
@@ -206,16 +223,12 @@ void Room::addEnemies(BST* enemies) {
             } else {
                 postOrder(enemies->root);
             }
-            int diff = enemies->allNodes[rand]/1000;
+            int diff = enemies->allNodes[rand]/100;
             setEnemy(x, y, true, diff);
-            std::vector<int> temp;
-            temp.push_back(x);
-            temp.push_back(y);
-            enemy_difficulties.insert({temp, diff});
             i++;
         }
     }
-}
+}*/
 
 void Room::setEnemy(int x, int y, bool exists, int difficulty){
         if(x >= 0 && x<width && y >= 0 && y<height){
@@ -365,7 +378,7 @@ void Room::setWalkingDistance(int walk){
 
     /*PNG* Room::drawRoomSolution() const {
         PNG* output = drawRoom();
-        vector<int> solution_vect = solveRoom();
+        vector<vector<int>> solution_vect = solveRoom();
         for (unsigned i = 0; i < output->width(); ++i) {
             for (unsigned j = 0; j < output->height(); ++j) {
                 for (unsigned z = 0; z < solution_vect.size(); ++z) {
