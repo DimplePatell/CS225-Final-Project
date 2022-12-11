@@ -192,14 +192,13 @@ using namespace cs225;
         return dist;
 }
 
-/*void Room::addEnemies(BST* enemies) {
-    int num_Enemies = (w*h)/10;
+void Room::addEnemies(BST* enemies) {
+    int num_Enemies = (width*height)/10;
     for (int i = 0; i < num_Enemies;) {
-        int x = (w*h)/rand();
-        int y = (w*h)/rand();
+        int x = (width*height)/rand();
+        int y = (width*height)/rand();
         if (v[x][y] != 'o' && x < width && y < height) {
-            int nodes = numNodes(enemies->root);
-            int num = rand()%(nodes + 1);
+            int num = rand()%(1000 + 1);
             if (num % 3 == 0) {
                 preOrder(enemies->root);
             } else if (rand % 3 == 1) {
@@ -207,12 +206,13 @@ using namespace cs225;
             } else {
                 postOrder(enemies->root);
             }
-            int diff = enemies->allNodes[rand]/100;
+            int diff = enemies->allNodes[rand]/1000;
             setEnemy(x, y, true, diff);
+            enemy_difficulties.insert({(x,y), diff});
             i++;
         }
     }
-}*/
+}
 
 void Room::setEnemy(int x, int y, bool exists, int difficulty){
         if(x >= 0 && x<width && y >= 0 && y<height){
