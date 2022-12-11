@@ -35,8 +35,13 @@ BST::BST() {
     
     sort(gamers.begin(), gamers.end());
     //gamers.erase(gamers.begin(), gamers.end()); //should be 1000, for testing purposes only
+    int c = 0;
     for (std::vector<int> i : gamers) {
+        if (c == 1000) {
+            break
+        }
         insert(i[0], i[1]);
+        c++;
     }
 }
 struct BST::Node* BST::getRoot(){
