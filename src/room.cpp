@@ -21,7 +21,7 @@ using namespace cs225;
     int Room::getHeight(){
         return height;
     }
-    std::vector<<std::vector<int>> getSolved(){
+    std::vector<std::vector<int>> Room::getSolved(){
         return solved;
     }
     Room* Room::roomHelper(int w,int h, bool ob){
@@ -59,6 +59,7 @@ using namespace cs225;
     void Room::makeRoom(int new_width, int new_height){
         width = new_width * 2 - 1;
         height = new_height *2 - 1;
+        solved = vector<vector<int>>(width,vector<int>(height,INT_MAX));
         edges = std::vector<std::vector<std::vector<int>>>(width, std::vector<std::vector<int>>(height, std::vector<int>(4, -1)));
         if(!v.empty()){ v.clear();}
         v = std::vector<std::vector<char>>(width, std::vector<char>(height, 'o'));
@@ -184,7 +185,7 @@ using namespace cs225;
         return min_index;
     }
 
-    vector<vector<int>> Room::solveRoom() const{
+    vector<vector<int>> Room::solveRoom(){
         vector<vector<int>> dist(width,vector<int>(height,INT_MAX));
         vector<vector<bool>> visited(width,vector<bool>(height,false));
         vector<vector<int>> parents(width,vector<int>(height,-1));
@@ -402,7 +403,7 @@ void Room::setWalkingDistance(int walk){
         return 0;
     }
 
-    PNG* Room::drawRoomSolution(int difficulty) const {
+    PNG* Room::drawRoomSolution(int difficulty){
         double d = getColor(difficulty);
         PNG* pic = drawRoom();
         vector<vector<int>> solution = solveRoom();

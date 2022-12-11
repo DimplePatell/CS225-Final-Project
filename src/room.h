@@ -20,16 +20,16 @@ class Room {
         Room* roomHelper(int w,int h, bool ob);
         std::vector<int> getEdgesHelper(int x, int y);
         char getObstacle(int x, int y);
-        vector<vector<int>> solveRoom() const;
+        vector<vector<int>> solveRoom();
         //void printSolution(vector<int> dist, int n) const;
         pair<int,int> minDistance(vector<vector<int>> dist, vector<vector<bool>> visited) const;
         PNG* drawRoom() const;
-        PNG* drawRoomSolution(int difficulty) const;
+        PNG* drawRoomSolution(int difficulty);
         //void addEnemies(BST* enemies);
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
         void addEnemies(BST* enemies);
-        std::vector<<std::vector<int>> getSolved();
+        std::vector<std::vector<int>> getSolved();
     private:
         int width;
         int height;
