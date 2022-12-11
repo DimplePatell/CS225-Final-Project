@@ -5,7 +5,6 @@
 #include <sstream>
 #include <string>
 //#include "utils.h"
-#include "bst.cpp"
 
 class BST
 {
@@ -27,14 +26,14 @@ class BST
     bool greater(std::vector<int>& A, std::vector<int>& B);
     void insert(const int& key, const int& value);
     int find(const int& key);
-    void BST::preOrder(Node* n);
-    void BST::inOrder(Node* n);
-    void BST::postOrder(Node* n);
+    void preOrder(Node* n);
+    void inOrder(Node* n);
+    void postOrder(Node* n);
 
   private:
     Node* root;
     std::vector<int> allNodes;
     //void insert(Node*& node, const int& key, const int& value);
-    struct BST::Node* &  find(Node*& node, const int& key);
+    struct Node* &  find(Node*& node, const int& key);
 };
 
