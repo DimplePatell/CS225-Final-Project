@@ -6,11 +6,6 @@
 #include <map>
 #include <algorithm>
 #include <limits.h>
-#include <fstream>
-#include <string>
-#include <random>
-#include <chrono>
-
 using namespace std;
 using namespace cs225;
 
@@ -219,59 +214,22 @@ using namespace cs225;
         }
         return parents;
 }
-
-void Room::createEnemies() {
-    std::string lines;
-    std::ifstream file;
-    file.open("large_twitch_features.csv");
-    
-    while (std::getline(file, lines)) {
-        std::stringstream ss(lines);
-        std::string str;
-        
-        std::vector<std::string> row;
-       
-        while (std::getline(ss, str, ',')) {
-            row.push_back(str);
-            
-        }
-        std::vector<int> temp;
-        if (std::stoi(row[0]) >= 0 && std::stoi(row[5]) >= 0) {
-            temp.push_back(std::stoi(row[0]));
-            temp.push_back(std::stoi(row[5]));
-            enemies.push_back(temp);
-        }  
-    }
-    
-    sort(enemies.begin(), enemies.end());
-    enemies.erase(enemies.begin() + 1000, enemies.end());
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    shuffle(enemies.begin(),enemies.end(), std::default_random_engine(seed));
-}
-
-bool Room::greater(std::vector<int>& A, std::vector<int>& B)
-{
-    if (A[0] < B[0])
-        return true; //no swap
-    //swap
-    return false;
-}
-
-void Room::addEnemies() {
+void Room::addEnemies(BST* enemies) {
     int num_Enemies = (width*height)/10;
     for (int i = 0; i < num_Enemies;) {
         int x = (width*height)/rand();
         int y = (width*height)/rand();
         if (v[x][y] != 'o' && x < width && y < height) {
-            int num = rand()%(1000 + 1);
-            // if (num % 3 == 0) {
-            //     preOrder(enemies->root);
-            // } else if (rand % 3 == 1) {
-            //     inOrder(enemies->root);
-            // } else {
-            //     postOrder(enemies->root);
-            // }
-            int diff = enemies[num][0]/100;
+            int nodes = 1000;
+            int num = rand()%(nodes + 1);
+            if (num % 3 == 0) {
+                enemies->preOrder(enemies->getRoot());
+            } else if (num % 3 == 1) {
+                enemies->inOrder(enemies->getRoot());
+            } else {
+                enemies->postOrder(enemies->getRoot());
+            }
+            int diff = enemies->getAllNodes()[num]/100;
             std::vector<int> temp{x, y};
             enemy_difficulties.insert({temp, diff});
             setEnemy(x, y, true, diff);
@@ -279,6 +237,7 @@ void Room::addEnemies() {
         }
     }
 }
+
 
 void Room::setEnemy(int x, int y, bool exists, int difficulty){
         if(x >= 0 && x<width && y >= 0 && y<height){
@@ -321,7 +280,7 @@ void Room::setWalkingDistance(int walk){
     for(int x=0; x < (int)edges.size(); x++){
        for(int y=0; y < (int)edges[0].size(); y++){
             for(int d=0; d<4; d++){
-                if(edges[x][y][d] != -1){
+                if(edges[x][y][d] != -1 && v[x][y] != 'e'){
                     edges[x][y][d] += walk;
                 }
             }

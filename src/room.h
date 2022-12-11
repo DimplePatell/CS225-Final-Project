@@ -1,10 +1,8 @@
-/* Your code here! */
-
 #pragma once
 #include <vector>
 #include "../lib/cs225/PNG.h"
 #include <map>
-//#include "bst.h"
+#include "bst.h"
 
 
 using namespace std;
@@ -25,11 +23,10 @@ class Room {
         pair<int,int> minDistance(vector<vector<int>> dist, vector<vector<bool>> visited) const;
         PNG* drawRoom() const;
         PNG* drawRoomSolution(int difficulty) const;
-        void createEnemies();
-        bool greater(std::vector<int>& A, std::vector<int>& B);
-        void addEnemies();
+        //void addEnemies(BST* enemies);
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
+        void addEnemies(BST* enemies);
     private:
         int width;
         int height;
@@ -39,6 +36,5 @@ class Room {
         //otherwise empty
         std::vector<std::vector<std::vector<int>>> edges;
         double getColor(int difficulty) const;
-        std::vector<std::vector<int>> enemies;
         std::map<std::vector<int>, int> enemy_difficulties;
 };

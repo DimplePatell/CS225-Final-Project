@@ -29,6 +29,8 @@ class BST
     void preOrder(Node* n);
     void inOrder(Node* n);
     void postOrder(Node* n);
+    Node* getRoot();
+    std::vector<int> getAllNodes();
 
   private:
     Node* root;

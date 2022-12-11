@@ -34,13 +34,17 @@ BST::BST() {
     }
     
     sort(gamers.begin(), gamers.end());
-    gamers.erase(gamers.begin() + 10, gamers.end()); //should be 1000, for testing purposes only
-
+    //gamers.erase(gamers.begin(), gamers.end()); //should be 1000, for testing purposes only
     for (std::vector<int> i : gamers) {
         insert(i[0], i[1]);
     }
 }
-
+struct BST::Node* BST::getRoot(){
+    return root;
+}
+std::vector<int> BST::getAllNodes(){
+    return allNodes;
+}
 bool BST::greater(std::vector<int>& A, std::vector<int>& B)
 {
     if (A[0] < B[0])
