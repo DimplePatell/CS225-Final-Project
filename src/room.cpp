@@ -208,7 +208,10 @@ void Room::addEnemies(BST* enemies) {
             }
             int diff = enemies->allNodes[rand]/1000;
             setEnemy(x, y, true, diff);
-            enemy_difficulties.insert({(x,y), diff});
+            std::vector<int> temp;
+            temp.push_back(x);
+            temp.push_back(y);
+            enemy_difficulties.insert({temp, diff});
             i++;
         }
     }
