@@ -6,36 +6,34 @@
 #include <string>
 //#include "utils.h"
 
+
+
 class BST
 {
   private:
     struct Node {
         int key;
-        int value;
         Node* left;
         Node* right;
 
-        Node(const int& newKey, const int& newValue)
-            : key(newKey), value(newValue), left(NULL), right(NULL)
+        Node(const int& newKey)
+            : key(newKey), left(NULL), right(NULL)
         {
         }
     };
 
   public:
     BST();
-    bool greater(std::vector<int>& A, std::vector<int>& B);
-    void insert(const int& key, const int& value);
-    int find(const int& key);
+    void insert(const int& key);
     void preOrder(Node* n);
     void inOrder(Node* n);
     void postOrder(Node* n);
     Node* getRoot();
-    std::vector<int> getAllNodes();
+    std::vector<int> getAllNodes(int c);
 
   private:
     Node* root;
-    std::vector<int> allNodes;
-    struct Node* putIn(Node*& node, const int & key, const int & value);
-    struct Node* &  find(Node*& node, const int& key);
+    std::vector<int> allNodes_one;
+    std::vector<int> allNodes_two;
+    std::vector<int> allNodes_three;
 };
-
