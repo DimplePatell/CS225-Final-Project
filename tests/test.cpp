@@ -306,6 +306,7 @@ void copyRoom(const RoomReader & source, Room * dest)
         }
     }
 }
+
 void testSolveRoom() {
     Room room;
     room = *room.roomHelper(3,3, false);
@@ -319,13 +320,6 @@ void testSolveRoom() {
     // n n o
     // n n n
     room.setWalkingDistance(3);
-
-    std::vector<std::vector<int>> answr = room.solveRoom();
-    for (unsigned i = 0; i < answr.size(); i++) {
-        for(unsigned j = 0; j < answr[0].size(); j++) {
-            std::cout <<"solution:" << answr[i][j] << std::endl;
-        }
-    }
 }
 void testSolveRoom2() {
     Room room;
@@ -333,15 +327,22 @@ void testSolveRoom2() {
     room.setWalkingDistance(3);
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolved1.png");
-
-    std::vector<std::vector<int>> answr = room.solveRoom();
-    for (unsigned i = 0; i < answr.size(); i++) {
-        for(unsigned j = 0; j < answr[0].size(); j++) {
-            std::cout <<"solution:" <<answr[i][j] << std::endl;
-        }
-    }
+    int difficulty = 90;
+    cs225::PNG* solved = room.drawRoomSolution(difficulty);
+    solved->writeToFile("solved.png");
 }
-/*void testsolveRoom() {
-    helpSolveRoom(READ_SOLUTION_ROOM("testSolveRoomSmall", 70, 70));
-}*/
+
+void testSolveRoom3() {
+    Room room;
+    room.makeRoom(5,5);
+    room.setWalkingDistance(2);
+    cs225::PNG* unsolved = room.drawRoom();
+    unsolved->writeToFile("unsolved2.png");
+
+    // std::vector<std::vector<int>> answr = room.solveRoom();
+    int difficulty = 90;
+    cs225::PNG* solved = room.drawRoomSolution(difficulty);
+    solved->writeToFile("solved2.png");
+}
+
 
