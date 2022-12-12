@@ -7,7 +7,6 @@
 #include <string>
 #include <stack>
 #include <limits.h>
-#include "roomreader.h"
 #include <catch2/catch_test_macros.hpp>
 
 
@@ -20,13 +19,6 @@ void assert_room_tree(Room& room, int width, int height);
 void assert_connected(Room & room, int width, int height);
 std::pair<int, int> assert_room_helper(Room & room, int width, int height);
 void DFS(Room & room, std::vector<std::vector<int> > * visited, int x, int y, int width, int height, int * calls);
-void copyRoom(const RoomReader & source, Room * dest);
-PNG read_solution(const string & filename, int width, int height);
-PNG read_unsolved(const string & filename, int width, int height);
-#define READ_SOLUTION_ROOM(func, width, height)  \
-    RoomReader(READ_SOLUTION_PNG(func, width, height))
-#define READ_SOLUTION_PNG(func, width, height)  \
-    read_solution(string("../tests/soln_") + func + string(".png"), width, height)
 
 //void djsTestAddElements();
 //void djsTestUnion();
@@ -273,20 +265,6 @@ PNG read_solution(const string & filename, int width, int height)
       return output;
 }
 
-void copyRoom(const RoomReader & source, Room * dest)
-{
-    dest->makeRoom(source.getWidth(), source.getHeight());
-    for (int x = 0; x < source.getWidth(); x++)
-    {
-        for (int y = 0; y < source.getHeight(); y++)
-        {
-            if (x < source.getWidth() - 1)
-                dest->setObstacle(x, y, source.isWall(x, y, RoomReader::RIGHTWALL));
-            if (y < source.getHeight() - 1)
-                dest->setObstacle(x, y, source.isWall(x, y, RoomReader::DOWNWALL));
-        }
-    }
-}
 void testSolveRoom() {
     Room room;
     room = *room.roomHelper(3,3, false);
@@ -327,34 +305,31 @@ void testSolveRoomSmall(){
             }
         }
     }
-	
     std::vector<pair<int,int>> pathDir = room.getpathDirection();
     pathDir.push_back({0,0});
     std::vector<std::vector<std::vector<int>>> edges = room.getEdges();
     int edgeVal = 0;
-    int solEdgeVal = 0;
+    int solEdgeVal = d[pathDir[0].first][pathDir[0].second];
     for (unsigned i = 0; i < (pathDir.size()-1); ++i) {
-        std::cout << "posx: " << pathDir[i].first << "   posy: " <<  pathDir[i].second << std::endl;
         if (pathDir[i].first - pathDir[i+1].first == 1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][2];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
         if (pathDir[i].first - pathDir[i+1].first == -1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][0];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
         if (pathDir[i].second - pathDir[i+1].second == 1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][3];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
         if (pathDir[i].second - pathDir[i+1].second == -1) {
             edgeVal += edges[pathDir[i].first][pathDir[i].second][1];
-            solEdgeVal += d[pathDir[i].first][pathDir[i].second];
         }
     }
 
-    std::cout << "EdgeVal: "<< edgeVal << "  solEdgeVal: " << solEdgeVal << std::endl;
-    std::cout<<"Test Solution Small Passed"<<std::endl;
+    if (edgeVal != solEdgeVal) {
+        std::cout << "Does not find shortest solution" << std::endl;
+    } else {
+        std::cout << "Finds shortest solution" << std::endl;
+    }
     std::cout<<"Test Solution Small Passed"<<std::endl;
 
 }
@@ -381,7 +356,31 @@ void testSolveRoomLarge() {
             }
         } 
     }
+
+    std::vector<pair<int,int>> pathDir = room.getpathDirection();
+    pathDir.push_back({0,0});
+    std::vector<std::vector<std::vector<int>>> edges = room.getEdges();
+    int edgeVal = 0;
+    int solEdgeVal = d[pathDir[0].first][pathDir[0].second];
+    for (unsigned i = 0; i < (pathDir.size()-1); ++i) {
+        if (pathDir[i].first - pathDir[i+1].first == 1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][2];
+        }
+        if (pathDir[i].first - pathDir[i+1].first == -1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][0];
+        }
+        if (pathDir[i].second - pathDir[i+1].second == 1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][3];
+        }
+        if (pathDir[i].second - pathDir[i+1].second == -1) {
+            edgeVal += edges[pathDir[i].first][pathDir[i].second][1];
+        }
+    }
+
+    if (edgeVal != solEdgeVal) {
+        std::cout << "Does not find shortest solution" << std::endl;
+    } else {
+        std::cout << "Finds shortest solution" << std::endl;
+    }
     std::cout<<"Test Solution Large Passed"<<std::endl;
 }
-
-
