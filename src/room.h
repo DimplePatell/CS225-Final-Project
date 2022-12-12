@@ -31,6 +31,7 @@ class Room {
         std::vector<std::vector<int>> getSolved();
         std::vector<pair<int,int>> getpathDirection();
         std::vector<std::vector<std::vector<int>>> getEdges();
+        unsigned getNumEnemies();
     private:
         int width;
         int height;
