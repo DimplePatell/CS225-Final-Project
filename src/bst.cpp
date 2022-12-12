@@ -35,7 +35,7 @@ BST::BST() {
     // std::default_random_engine e(seed);
     // std::shuffle(gamers.begin(), gamers.end(), e);
     for (unsigned i = 0; i < 1000; i++) {
-        insert(i);
+        insert(gamers[i]);
     }
 }
 struct BST::Node* BST::getRoot(){
