@@ -23,7 +23,7 @@ class BST
     };
 
   public:
-    BST();
+    BST(std::string file_name, int num_enemies);
     void insert(const int& key);
     void preOrder(Node* n);
     void inOrder(Node* n);
