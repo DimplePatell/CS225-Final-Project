@@ -8,10 +8,10 @@
 #include <chrono>
 #include "bst.h"
 
-BST::BST() {
+BST::BST(std::string file_name, int num_enemies) {
 
     std::string lines;
-    std::ifstream file("/workspaces/cs225/CS225-Final-Project-4/src/large_twitch_features.csv");
+    std::ifstream file(file_name);
     std::vector<int> gamers;
     if (file.is_open()) {
         while (std::getline(file, lines)) {
@@ -23,7 +23,6 @@ BST::BST() {
                 
             }
             if (std::stoi(row[0]) >= 0) {
-                //std::cout << row[0] << std::endl;
                 gamers.push_back(std::stoi(row[0]));
             }  
         }
@@ -31,13 +30,13 @@ BST::BST() {
     
     file.close();
     sort(gamers.rbegin(), gamers.rend());
-    gamers.erase(gamers.begin() + 1000, gamers.end());
+    gamers.erase(gamers.begin() + num_enemies, gamers.end());
     
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     std::default_random_engine e(seed);
     std::shuffle(gamers.begin(), gamers.end(), e);
     
-    for (unsigned i = 0; i < 1000; i++) {
+    for (int i = 0; i < num_enemies; i++) {
         insert(gamers[i]);
     }
 }
