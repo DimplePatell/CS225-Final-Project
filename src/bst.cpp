@@ -18,9 +18,7 @@ BST::BST() {
     while (std::getline(file, lines)) {
         std::stringstream ss(lines);
         std::string str;
-        
         std::vector<std::string> row;
-       
         while (std::getline(ss, str, ',')) {
             row.push_back(str);
             
@@ -32,11 +30,11 @@ BST::BST() {
     }
     
     sort(gamers.begin(), gamers.end());
-    gamers.erase(gamers.begin() + 1000, gamers.end());
-    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    std::default_random_engine e(seed);
-    std::shuffle(gamers.begin(), gamers.end(), e);
-    for (int i : gamers) {
+    // gamers.erase(gamers.begin() + 1000, gamers.end());
+    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    // std::default_random_engine e(seed);
+    // std::shuffle(gamers.begin(), gamers.end(), e);
+    for (unsigned i = 0; i < 1000; i++) {
         insert(i);
     }
 }
