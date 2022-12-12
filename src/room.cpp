@@ -236,8 +236,8 @@ void Room::addEnemies(BST* enemies) {
     for (int i = 0; i < num_Enemies;) {
         int x = rand()%width;
         int y = rand()%height;
-        if (v[x][y] != 'o' && x < width && y < height) {
-            int num = rand()%(1000);
+        if (v[x][y] != 'n' && x < width && y < height) {
+            int num = rand()%(enemies->getAllNodes(0).size());
             std::vector<int> nodes = enemies->getAllNodes(num % 3);
             int diff = nodes[num]/1000000;
             std::vector<int> temp{x, y};
@@ -246,6 +246,10 @@ void Room::addEnemies(BST* enemies) {
             i++;
         }
     }
+}
+
+unsigned Room::getNumEnemies() {
+    return enemy_difficulties.size();
 }
 
 
