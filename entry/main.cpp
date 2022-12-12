@@ -31,11 +31,13 @@ int main(){
     testSolveRoomLarge();
     Room r;
     r.makeRoom(10,10);
+    std::cout << "made room" << std::endl;
     BST tree = BST();
-    std::cout<<"hi"<<std::endl;
+    std::cout << "made bst" << std::endl;
     r.addEnemies(&tree);
-    std::cout<<"hey"<<std::endl;
+    std::cout << "added enemies" << std::endl;
     cs225::PNG* unsolved = r.drawRoom();
     unsolved->writeToFile("unsolved.png");
+    std::cout << "drew room" << std::endl;
      
 }

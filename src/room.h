@@ -14,7 +14,7 @@ class Room {
         Room();
         int getWidth();
         int getHeight();
-        void makeRoom(int width, int height);
+        void makeRoom(int new_width, int new_height);
         bool canTravel(int x, int y, int dir) const;
         void setObstacle(int x, int y, bool exists);
         Room* roomHelper(int w,int h, bool ob);
@@ -25,7 +25,6 @@ class Room {
         pair<int,int> minDistance(vector<vector<int>> dist, vector<vector<bool>> visited) const;
         PNG* drawRoom() const;
         PNG* drawRoomSolution(int difficulty);
-        //void addEnemies(BST* enemies);
         void setEnemy(int x, int y, bool exists, int difficulty);
         void setWalkingDistance(int walk);
         void addEnemies(BST* enemies);
@@ -36,6 +35,7 @@ class Room {
         int width;
         int height;
         std::vector<std::vector<char>> v;
+        std::vector<pair<int,int>> pathDirection;
         //"e" = enemy
         //"o" = obstacle
         //otherwise empty

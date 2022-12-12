@@ -8,32 +8,45 @@
 #include <chrono>
 #include "bst.h"
 
+std::string BST::file_to_string(const std::string& filename){
+  std::ifstream text(filename);
+
+  std::stringstream strStream;
+  if (text.is_open()) {
+    strStream << text.rdbuf();
+  }
+  return strStream.str();
+}
+
 BST::BST() {
 
     std::string lines;
-    std::ifstream file;
-    file.open("large_twitch_features.csv");
+    std::ifstream file("/workspaces/cs225/CS225-Final-Project-4/src/large_twitch_features.csv");
     std::vector<int> gamers;
-    
-    while (std::getline(file, lines)) {
-        std::stringstream ss(lines);
-        std::string str;
-        std::vector<std::string> row;
-        while (std::getline(ss, str, ',')) {
-            row.push_back(str);
-            
+    if (file.is_open()) {
+        while (std::getline(file, lines)) {
+            std::stringstream ss(lines);
+            std::string str;
+            std::vector<std::string> row;
+            while (std::getline(ss, str, ',')) {
+                row.push_back(str);
+                
+            }
+            if (std::stoi(row[0]) >= 0) {
+                //std::cout << row[0] << std::endl;
+                gamers.push_back(std::stoi(row[0]));
+            }  
         }
-        std::vector<int> temp;
-        if (std::stoi(row[0]) >= 0) {
-            gamers.push_back(std::stoi(row[0]));
-        }  
     }
     
-    sort(gamers.begin(), gamers.end());
-    // gamers.erase(gamers.begin() + 1000, gamers.end());
-    // unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    // std::default_random_engine e(seed);
-    // std::shuffle(gamers.begin(), gamers.end(), e);
+    file.close();
+    sort(gamers.rbegin(), gamers.rend());
+    gamers.erase(gamers.begin() + 1000, gamers.end());
+    
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    std::default_random_engine e(seed);
+    std::shuffle(gamers.begin(), gamers.end(), e);
+    
     for (unsigned i = 0; i < 1000; i++) {
         insert(gamers[i]);
     }
@@ -65,7 +78,7 @@ void BST::insert(const int & key) {
     }
     Node* back = NULL;
     Node* temp = root;
-    while (temp) {
+    while (temp != NULL) {
         if (temp->key > key) {
             back = temp;
             temp = temp->left;
