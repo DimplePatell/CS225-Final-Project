@@ -30,7 +30,6 @@ class BST
     void postOrder(Node* n);
     Node* getRoot();
     std::vector<int> getAllNodes(int c);
-    std::string file_to_string(const std::string& filename);
 
   private:
     Node* root = NULL;
