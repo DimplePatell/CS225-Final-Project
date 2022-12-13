@@ -1,11 +1,13 @@
 #include "disjointsets.h"
 
+//creates num unconnected root nodes at the end of the vector
 void DisjointSets::addelements(int num) {
     for (int i = 0; i < num; i++) {
         sets.push_back(-1);
     }
 }
 
+//returns the index of the root of the up-tree that contains elem
 int DisjointSets::find(int elem) {
     if (sets[elem] < 0) { //if elem is its own parent
         return elem;
@@ -16,6 +18,7 @@ int DisjointSets::find(int elem) {
     }
 }
 
+//implementation of union by size
 void DisjointSets::setunion(int a, int b) {
     int aroot = find(a);
     int broot = find(b);
@@ -33,6 +36,7 @@ void DisjointSets::setunion(int a, int b) {
     }
 }
 
+//return the number of nodes in the up-tree containing elem
 int DisjointSets::size(int elem) {
     return (sets[find(elem)] * -1);
 }
