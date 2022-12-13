@@ -23,7 +23,7 @@ std::pair<int, int> assert_room_helper(Room & room, int width, int height);
 void DFS(Room & room, std::vector<std::vector<int> > * visited, int x, int y, int width, int height, int * calls);
 
 void testBSTDatasetSmall() {
-    std::string file_name = "/workspaces/cs225/CS225-Final-Project-4/tests/test_twitch_file.csv";
+    std::string file_name = "../tests/test_twitch_file.csv";
     BST bst = BST(file_name, 10);
     std::vector<int> expected{2002, 2178, 2486, 4871, 4987, 7879, 32073, 69020, 382502, 10254468};
     std::vector<int> actual = bst.getAllNodes(1); //inorder traversal of bst
@@ -33,7 +33,7 @@ void testBSTDatasetSmall() {
 }
 
 void testBSTDatasetBig() {
-    std::string file_name = "/workspaces/cs225/CS225-Final-Project-4/tests/test_twitch_file_two.csv";
+    std::string file_name = "../tests/test_twitch_file_two.csv";
     BST bst = BST(file_name, 50);
     std::vector<int> expected{4871, 4987, 5594, 5639, 5667, 5863, 5950, 6043, 7149, 7738, 7879, 8231, 8541, 8788, 
                                 9273, 9350, 9528, 9529, 9713, 11624, 12359, 14538, 14944, 17042, 18460, 19442, 
@@ -48,7 +48,7 @@ void testBSTDatasetBig() {
 void testAddEnemies() {
     Room room;
     room.makeRoom(4, 4);
-    BST tree = BST("/workspaces/cs225/CS225-Final-Project-4/tests/test_twitch_file.csv", 10);
+    BST tree = BST("../tests/test_twitch_file.csv", 10);
     room.addEnemies(&tree);
     if (room.getNumEnemies() == 4) {
         std::cout << "added correct number of enemies for room" << std::endl;
@@ -90,6 +90,13 @@ void testMakeRoomSmall(){
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolvedsmall.png");
     assert_room_tree(room, room.getWidth(), room.getHeight());
+    BST tree = BST("../tests/test_twitch_file.csv", 10);
+    room.addEnemies(&tree);
+    cs225::PNG* unsolvede = room.drawRoom();
+    unsolvede->writeToFile("unsolvedsmallenemies.png");
+    if (room.getNumEnemies() == 2) {
+        std::cout << "added correct number of enemies for room" << std::endl;
+    }
     std::cout<<"test make room small passed"<<std::endl;
 }
 void testMakeRoomLarge(){
@@ -98,6 +105,13 @@ void testMakeRoomLarge(){
     cs225::PNG* unsolved = room.drawRoom();
     unsolved->writeToFile("unsolvedlarge.png");
     assert_room_tree(room, room.getWidth(), room.getHeight());
+    BST tree = BST("../src/large_twitch_features.csv", 1000);
+    room.addEnemies(&tree);
+    cs225::PNG* unsolvede = room.drawRoom();
+    unsolvede->writeToFile("unsolvedlargeenemies.png");
+    if (room.getNumEnemies() == 2220) {
+        std::cout << "added correct number of enemies for room" << std::endl;
+    }
     std::cout<<"test make room large passed"<<std::endl;
 }
 void testMakeRoomConnected(){
