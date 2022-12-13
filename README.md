@@ -38,7 +38,7 @@ Solve Room Tests:
     testSolveRoomLarge()- "unsolved2.png", "solved2.png"
 
 After running tests Main runs 3 instances to see our code in action.  These can be seen in the following files:
-1 - Walking Weight = 0, 10x10, green.png"
-2- Walking Weight = 50, 10x10, yellow.png"
-3- Walking Weight = 100, 10x10, red.png"
-You should see the same 10 x10 room solved 3 times with different walking weights.
+1 - Walking Weight = 0, 43x43, green.png"
+2- Walking Weight = 10, 43x43, yellow.png"
+3- Walking Weight = 20, 43x43, red.png"
+You should see the same 43x43, room solved 3 times with different walking weights.
