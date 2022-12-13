@@ -11,10 +11,12 @@ using namespace cs225;
 
 #include "../lib/cs225/HSLAPixel.h"
 #include "../lib/cs225/PNG.h"
+    //default constructor, creates empty room
     Room::Room(){
         width = 0;
         height = 0;
     }
+    //helpers for tests
     int Room::getWidth(){
         return width;
     }
@@ -43,6 +45,7 @@ using namespace cs225;
         }
         return this;
     }
+
     std::vector<int> Room::getEdgesHelper(int x, int y){
         std::vector<int> edge =std::vector<int>(4,-1);
         if(x-1 >= 0){
@@ -62,6 +65,9 @@ using namespace cs225;
     char Room::getObstacle(int x, int y){
         return v[x][y];
     }
+    //input, width and height
+    //creates a maze room of size 2*width-1 by 2*height-1
+    //stored in v vector with edges in edges vector
     void Room::makeRoom(int new_width, int new_height){
         width = new_width * 2 - 1;
         height = new_height *2 - 1;
@@ -105,7 +111,8 @@ using namespace cs225;
             }
         }
     }
-    
+    //input: x coordinate, y coordinate, direction
+    //output: bool value, true if you can travel in the given direction from (x,y)
     bool Room::canTravel(int x, int y, int dir) const{
         if(x< 0 || y< 0 || x >= width || y >= height || v[x][y] == 'o' ){
             return false;
@@ -134,6 +141,8 @@ using namespace cs225;
         }
         return false;
     }
+    //sets obstacle with edges -1 or removes obstacle
+    //inputs: x coordinate, y coordinate, bool value to add or remove
     void Room::setObstacle(int x, int y, bool exists){
         if(x >= 0 && x<width && y >= 0 && y<height){
             if(exists){
@@ -252,7 +261,8 @@ unsigned Room::getNumEnemies() {
     return enemy_difficulties.size();
 }
 
-
+//sets enemy with edges of difficulty or removes enemy
+//inputs: x coordinate, y coordinate, bool value to add or remove, enemy difficulty
 void Room::setEnemy(int x, int y, bool exists, int difficulty){
         if(x >= 0 && x<width && y >= 0 && y<height){
             if(exists){
@@ -287,6 +297,8 @@ void Room::setEnemy(int x, int y, bool exists, int difficulty){
             }
         }
     }
+//sets walking weight for edges by adding walk if a node is not an obstacle
+//input: walking weight
 void Room::setWalkingDistance(int walk){
     if(walk <=0){
         return;
@@ -301,6 +313,8 @@ void Room::setWalkingDistance(int walk){
         } 
     }
 }
+//creates a png file based on the room data with enemies, enemy edge weights, and obstacles drawn
+//output:cs225::PNG that can be drawn to a file
     cs225::PNG* Room::drawRoom() const{
         cs225::PNG* pic = new cs225::PNG(width * 10 + 1, height * 10 + 1);
         for(unsigned i = 0; i < pic->width(); i++) {
@@ -374,6 +388,7 @@ void Room::setWalkingDistance(int walk){
         }
         return pic;
     }
+//helper for difficulty colors
     double Room::getColor(int difficulty) const{
         if(difficulty <=10){
             return 125;
