@@ -257,6 +257,9 @@ using namespace cs225;
         solved = dist;
         return parents;
 }
+
+//takes in a bst of enemies
+//randomly adds enemies throughout the room in spots where there isn't an enemy and aren't the entrance
 void Room::addEnemies(BST* enemies) {
     int num_Enemies = (width*height)/10;
     for (int i = 0; i < num_Enemies;) {
@@ -274,6 +277,7 @@ void Room::addEnemies(BST* enemies) {
     }
 }
 
+//gets the number of enemies that have been added into the room
 unsigned Room::getNumEnemies() {
     return enemy_difficulties.size();
 }
