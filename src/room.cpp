@@ -186,6 +186,15 @@ using namespace cs225;
         }
     }
 
+    /**
+    * Iterates through the width and height of the room and determines the next position to be visited
+    * based on the lowest walking distance required to reach that node
+    *
+    * @param dist 2D vector tracking the minimum distance to travel to each node in the room
+    * @param visited marks if a node has been visited or not
+    * @returns A pair<int,int> representing the x,y coordinates of the next visited node with the least distance 
+    */
+
     pair<int,int> Room::minDistance(vector<vector<int>> dist, vector<vector<bool>> visited) const {
         int min = INT_MAX;
         pair<int,int> min_index;
@@ -199,6 +208,14 @@ using namespace cs225;
         }
         return min_index;
     }
+
+    /**
+    * Implements Dijkstra’s Algorithm to calculate the minimum distance between nodes using edge weights
+    * If an obstacle is present in a certain position, the distance to travel to that node will be considered invalid (INT_MAX)
+    * for each visited node in the room, if a shorter path to that node is found the walking distance assigned will be updated.
+    * 
+    * @returns a 2D vector of the nodes in a room and the direction from which they are visited (0, 1, 2, or 3)
+    */
 
     vector<vector<int>> Room::solveRoom(){
         vector<vector<int>> dist(width,vector<int>(height,INT_MAX));
@@ -419,6 +436,17 @@ void Room::setWalkingDistance(int walk){
         }
         return 0;
     }
+
+    /**
+    * Travels backward through the solution path accessing previously visited nodes.
+    * Based on the direction traveled to the previous node (up, down, left, or right)
+    * a horizontal or vertical line of pixels will be drawn to the PNG file
+    * The solution path is colored the provided difficulty level
+    * The path ends when there are other nodes left to backtrack to, this position is the room's starting point (0,0)
+    *
+    * @param difficulty Enemy difficulty level 
+    * @returns A PNG of the room with the solution path through the graph.
+    */
 
     PNG* Room::drawRoomSolution(int difficulty){
         double d = getColor(difficulty);
