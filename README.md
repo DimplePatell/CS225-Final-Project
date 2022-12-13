@@ -17,7 +17,8 @@ This will run the tests.
 * Lib- CS225 library functions for png
 * Src- room files, bst files, and disjoint sets files
 * Tests- contains all test functions which are then run through main
-* Pres- contains the presentation and written report
+* Presentation: https://youtu.be/HqNJ91wYPBs
+* Writeup, Team Contract, and Proposal in main folder with README
 
 ### Tests and asssociated png files (where necessary):
 
@@ -68,5 +69,4 @@ testSolveRoomLarge(); - "unsolved2.png", "solved2.png"
 2. Walking Weight = 10, 43x43, yellow.png"
 3. Walking Weight = 20, 43x43, red.png"
 > You should see the same 43x43, room solved 3 times with different walking weights.
-> Presentation:
-https://youtu.be/HqNJ91wYPBs
+
