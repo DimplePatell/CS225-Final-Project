@@ -1,6 +1,5 @@
 # CS225-Final-Project
 
-orginally uploaded at: https://github.com/DimplePatell/CS225-Final-Project.git
 ### In the terminal, run the following commands:
 ```
 mkdir build
